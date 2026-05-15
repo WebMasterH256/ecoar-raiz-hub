@@ -266,8 +266,8 @@ function Landing() {
               transition={{ delay: i * 0.06 }}
               className="group relative flex gap-4 rounded-3xl border border-border/60 bg-surface p-6 shadow-soft transition-all hover:-translate-y-1 hover:shadow-glow"
             >
-              <div className="flex size-16 shrink-0 items-center justify-center rounded-2xl bg-gradient-sun text-primary-foreground shadow-glow">
-                <Building2 className="size-7" />
+              <div className="flex size-16 shrink-0 items-center justify-center rounded-2xl bg-white p-2 shadow-soft ring-1 ring-border/60">
+                <img src={o.logo} alt={`Logo ${o.sigla}`} className="size-full object-contain" />
               </div>
               <div>
                 <div className="flex items-center gap-2">
@@ -282,10 +282,6 @@ function Landing() {
             </motion.div>
           ))}
         </div>
-
-        <p className="mt-8 text-center text-xs text-muted-foreground">
-          *Logos oficiais dos órgãos serão aplicados na versão final, preservando identidade visual original.
-        </p>
       </section>
 
       {/* CTA */}
