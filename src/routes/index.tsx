@@ -17,6 +17,21 @@ import { SiteHeader } from "@/components/ecoar/SiteHeader";
 import { Logo } from "@/components/ecoar/Logo";
 import { Button } from "@/components/ui/button";
 import { suasOrgaos, frasesInstitucionais } from "@/lib/ecoar-data";
+import visita1 from "@/assets/comunidade/visita-1.jpeg";
+import visita2 from "@/assets/comunidade/visita-2.jpeg";
+import visita3 from "@/assets/comunidade/visita-3.jpeg";
+import visita4 from "@/assets/comunidade/visita-4.jpeg";
+import visita5 from "@/assets/comunidade/visita-5.jpeg";
+import visita6 from "@/assets/comunidade/visita-6.jpeg";
+
+const visitas = [
+  { src: visita1, legenda: "Encontro institucional na Associação Cultural Raízes do Sertão" },
+  { src: visita2, legenda: "Escuta ativa com lideranças comunitárias" },
+  { src: visita4, legenda: "Diálogo com gestoras culturais do território" },
+  { src: visita3, legenda: "Reconhecimento do espaço de convivência" },
+  { src: visita5, legenda: "Visita técnica às obras de ampliação" },
+  { src: visita6, legenda: "Levantamento de demandas estruturais" },
+];
 
 export const Route = createFileRoute("/")({
   head: () => ({
