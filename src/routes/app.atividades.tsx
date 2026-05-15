@@ -42,7 +42,7 @@ function Section({
   return (
     <section>
       <h2 className="mb-4 flex items-center gap-2 font-display text-lg font-bold">
-        <span className={`size-2 rounded-full bg-${accent}`} /> {title}
+        <span className={`size-2 rounded-full ${accent === "success" ? "bg-success" : "bg-primary"}`} /> {title}
       </h2>
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
         {items.map((a, i) => {
