@@ -17,6 +17,21 @@ import { SiteHeader } from "@/components/ecoar/SiteHeader";
 import { Logo } from "@/components/ecoar/Logo";
 import { Button } from "@/components/ui/button";
 import { suasOrgaos, frasesInstitucionais } from "@/lib/ecoar-data";
+import visita1 from "@/assets/comunidade/visita-1.jpeg";
+import visita2 from "@/assets/comunidade/visita-2.jpeg";
+import visita3 from "@/assets/comunidade/visita-3.jpeg";
+import visita4 from "@/assets/comunidade/visita-4.jpeg";
+import visita5 from "@/assets/comunidade/visita-5.jpeg";
+import visita6 from "@/assets/comunidade/visita-6.jpeg";
+
+const visitas = [
+  { src: visita1, legenda: "Encontro institucional na Associação Cultural Raízes do Sertão" },
+  { src: visita2, legenda: "Escuta ativa com lideranças comunitárias" },
+  { src: visita4, legenda: "Diálogo com gestoras culturais do território" },
+  { src: visita3, legenda: "Reconhecimento do espaço de convivência" },
+  { src: visita5, legenda: "Visita técnica às obras de ampliação" },
+  { src: visita6, legenda: "Levantamento de demandas estruturais" },
+];
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -280,6 +295,46 @@ function Landing() {
                 <p className="mt-2 text-sm text-foreground/80">{o.desc}</p>
               </div>
             </motion.div>
+          ))}
+        </div>
+      </section>
+
+      {/* COMUNIDADE EM AÇÃO */}
+      <section id="comunidade" className="container mx-auto px-4 py-24">
+        <div className="mx-auto max-w-2xl text-center">
+          <div className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-primary">
+            Comunidade em ação
+          </div>
+          <h2 className="font-display text-3xl font-bold sm:text-4xl">
+            Presença viva no território do Sertão
+          </h2>
+          <p className="mt-3 text-muted-foreground">
+            Registros das visitas técnicas e escutas comunitárias que dão base ao ECOAR — o cuidado público acontece no encontro com as pessoas.
+          </p>
+        </div>
+
+        <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {visitas.map((v, i) => (
+            <motion.figure
+              key={i}
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.05 }}
+              className="group relative overflow-hidden rounded-3xl border border-border/60 bg-surface shadow-soft"
+            >
+              <div className="aspect-[4/5] overflow-hidden">
+                <img
+                  src={v.src}
+                  alt={v.legenda}
+                  loading="lazy"
+                  className="size-full object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+              </div>
+              <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-4 text-sm font-medium text-white">
+                {v.legenda}
+              </figcaption>
+            </motion.figure>
           ))}
         </div>
       </section>
