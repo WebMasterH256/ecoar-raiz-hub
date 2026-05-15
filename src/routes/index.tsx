@@ -299,6 +299,46 @@ function Landing() {
         </div>
       </section>
 
+      {/* COMUNIDADE EM AÇÃO */}
+      <section id="comunidade" className="container mx-auto px-4 py-24">
+        <div className="mx-auto max-w-2xl text-center">
+          <div className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-primary">
+            Comunidade em ação
+          </div>
+          <h2 className="font-display text-3xl font-bold sm:text-4xl">
+            Presença viva no território do Sertão
+          </h2>
+          <p className="mt-3 text-muted-foreground">
+            Registros das visitas técnicas e escutas comunitárias que dão base ao ECOAR — o cuidado público acontece no encontro com as pessoas.
+          </p>
+        </div>
+
+        <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {visitas.map((v, i) => (
+            <motion.figure
+              key={i}
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.05 }}
+              className="group relative overflow-hidden rounded-3xl border border-border/60 bg-surface shadow-soft"
+            >
+              <div className="aspect-[4/5] overflow-hidden">
+                <img
+                  src={v.src}
+                  alt={v.legenda}
+                  loading="lazy"
+                  className="size-full object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+              </div>
+              <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-4 text-sm font-medium text-white">
+                {v.legenda}
+              </figcaption>
+            </motion.figure>
+          ))}
+        </div>
+      </section>
+
       {/* CTA */}
       <section className="container mx-auto px-4 pb-24">
         <div className="relative overflow-hidden rounded-[2.5rem] bg-gradient-sun p-10 text-primary-foreground shadow-glow sm:p-16">
