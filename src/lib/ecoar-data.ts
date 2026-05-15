@@ -133,13 +133,20 @@ export const recompensas = [
   { id: "rc6", nome: "Isenção em curso municipal de capacitação", custo: 500, tag: "Benefício" },
 ];
 
+import crasLogo from "@/assets/suas/cras.png";
+import creasLogo from "@/assets/suas/creas.png";
+import scfvLogo from "@/assets/suas/scfv.png";
+import bpcLogo from "@/assets/suas/bpc.png";
+import bolsaFamiliaLogo from "@/assets/suas/bolsa-familia.png";
+import cadunicoLogo from "@/assets/suas/cadunico.png";
+
 export const suasOrgaos = [
-  { sigla: "CRAS", nome: "Centro de Referência de Assistência Social", desc: "Porta de entrada da rede de proteção social básica." },
-  { sigla: "CREAS", nome: "Centro Especializado de Assistência Social", desc: "Atendimento à proteção social especial e direitos violados." },
-  { sigla: "SCFV", nome: "Serviço de Convivência e Fortalecimento de Vínculos", desc: "Grupos de convivência intergeracional e comunitária." },
-  { sigla: "BPC", nome: "Benefício de Prestação Continuada", desc: "Garantia de renda mínima a idosos e pessoas com deficiência." },
-  { sigla: "Bolsa Família", nome: "Programa Bolsa Família", desc: "Transferência de renda e inclusão social com condicionalidades." },
-  { sigla: "CadÚnico", nome: "Cadastro Único", desc: "Base estratégica para políticas públicas integradas." },
+  { sigla: "CRAS", nome: "Centro de Referência de Assistência Social", desc: "Porta de entrada da rede de proteção social básica.", logo: crasLogo },
+  { sigla: "CREAS", nome: "Centro Especializado de Assistência Social", desc: "Atendimento à proteção social especial e direitos violados.", logo: creasLogo },
+  { sigla: "SCFV", nome: "Serviço de Convivência e Fortalecimento de Vínculos", desc: "Grupos de convivência intergeracional e comunitária.", logo: scfvLogo },
+  { sigla: "BPC", nome: "Benefício de Prestação Continuada", desc: "Garantia de renda mínima a idosos e pessoas com deficiência.", logo: bpcLogo },
+  { sigla: "Bolsa Família", nome: "Programa Bolsa Família", desc: "Transferência de renda e inclusão social com condicionalidades.", logo: bolsaFamiliaLogo },
+  { sigla: "CadÚnico", nome: "Cadastro Único", desc: "Base estratégica para políticas públicas integradas.", logo: cadunicoLogo },
 ];
 
 export const cidadaoDemo = {
