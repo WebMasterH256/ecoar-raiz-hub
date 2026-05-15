@@ -19,7 +19,7 @@ export const Route = createFileRoute("/app")({
   component: AppLayout,
 });
 
-const nav = [
+const nav: { to: string; label: string; icon: typeof Home; exact?: boolean }[] = [
   { to: "/app", label: "Início", icon: Home, exact: true },
   { to: "/app/atividades", label: "Atividades", icon: Calendar },
   { to: "/app/ranking", label: "Ranking", icon: Trophy },
@@ -27,7 +27,7 @@ const nav = [
   { to: "/app/recompensas", label: "Recompensas", icon: Gift },
   { to: "/app/historico", label: "Histórico", icon: History },
   { to: "/app/perfil", label: "Perfil", icon: UserIcon },
-] as const;
+];
 
 function AppLayout() {
   const loc = useLocation();
