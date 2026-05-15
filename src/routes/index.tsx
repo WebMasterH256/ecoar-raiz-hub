@@ -321,19 +321,30 @@ function Landing() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.05 }}
-              className="group relative overflow-hidden rounded-3xl border border-border/60 bg-surface shadow-soft"
+              className="group relative overflow-hidden rounded-[2rem] border border-border/40 bg-white/50 p-2 shadow-soft backdrop-blur-sm transition-all hover:shadow-glow"
             >
-              <div className="aspect-[4/5] overflow-hidden">
+              <div className="relative aspect-[4/5] overflow-hidden rounded-[1.5rem]">
                 <img
                   src={v.src}
                   alt={v.legenda}
                   loading="lazy"
                   className="size-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
+                {/* Decorative overlay for better integration */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 transition-opacity group-hover:opacity-80" />
+                
+                <div className="absolute top-4 left-4">
+                  <div className="inline-flex items-center gap-1.5 rounded-full bg-white/20 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-white backdrop-blur-md border border-white/20">
+                    <MapPin className="size-3" /> Arcoverde
+                  </div>
+                </div>
+
+                <figcaption className="absolute inset-x-0 bottom-0 p-5">
+                  <p className="text-sm font-semibold leading-snug text-white drop-shadow-sm">
+                    {v.legenda}
+                  </p>
+                </figcaption>
               </div>
-              <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-4 text-sm font-medium text-white">
-                {v.legenda}
-              </figcaption>
             </motion.figure>
           ))}
         </div>
