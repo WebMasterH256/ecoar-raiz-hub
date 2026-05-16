@@ -32,6 +32,14 @@ export const supabase = {
       if (!userStr) return { data: { user: null } };
       return { data: { user: JSON.parse(userStr) } };
     },
+    getSession: async () => {
+      const token = typeof window !== 'undefined' ? localStorage.getItem("ecoar_token") : null;
+      return { data: { session: token ? { access_token: token } : null } };
+    },
+    setSession: async (tokens: any) => {
+      if (tokens?.access_token) localStorage.setItem("ecoar_token", tokens.access_token);
+      return { data: { session: tokens }, error: null };
+    },
     signInWithPassword: async ({ email, password }: any) => {
       try {
         const data = await api.post("/auth/login", { email, password });
@@ -56,13 +64,6 @@ export const supabase = {
         return { data: null, error };
       }
     },
-    getSession: async () => {
-      const token = typeof window !== 'undefined' ? localStorage.getItem("ecoar_token") : null;
-      return { data: { session: token ? { access_token: token } : null } };
-    },
-    setSession: async (tokens: any) => {
-      if (tokens?.access_token) localStorage.setItem("ecoar_token", tokens.access_token);
-      return { data: { session: tokens }, error: null };
     signOut: async () => {
       localStorage.removeItem("ecoar_token");
       localStorage.removeItem("ecoar_user");
@@ -75,7 +76,7 @@ export const supabase = {
         single: async () => {
           if (table === "profiles") {
             try {
-              const data = await api.get(`/auth/profile`); // Need to implement this endpoint
+              const data = await api.get(`/auth/profile`);
               return { data, error: null };
             } catch (error: any) {
               return { data: null, error };
