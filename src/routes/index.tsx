@@ -86,7 +86,7 @@ function Landing() {
             <p className="mt-6 max-w-xl text-lg text-muted-foreground">
               Uma plataforma pública que conecta famílias, ações comunitárias, alimentação,
               reaproveitamento e cidadania — com a moeda digital{" "}
-              <span className="font-semibold text-foreground">RAIZ</span>.
+              <span className="font-semibold text-foreground">sementes</span>.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link to="/login">
@@ -131,7 +131,7 @@ function Landing() {
                   Estratégia de Cuidado, Oportunidades, Alimentação e Reaproveitamento.
                 </p>
                 <div className="mt-6 flex items-center gap-2 rounded-full bg-accent px-4 py-2 text-xs font-semibold text-accent-foreground">
-                  <Coins className="size-3.5 text-primary" /> Moeda digital RAIZ
+                  <Coins className="size-3.5 text-primary" /> Moeda digital sementes
                 </div>
               </div>
             </div>
@@ -215,7 +215,7 @@ function Landing() {
             <p className="mt-5 text-muted-foreground">
               No coração do sertão pernambucano, o ECOAR articula assistência social, segurança
               alimentar e tecnologia em torno das famílias. A plataforma traduz cada hora doada,
-              cada quilo reaproveitado e cada planta cultivada em RAIZ — a moeda digital que
+              cada quilo reaproveitado e cada planta cultivada em sementes — a moeda digital que
               valoriza quem cuida do território.
             </p>
             <p className="mt-3 text-muted-foreground">
@@ -238,7 +238,7 @@ function Landing() {
             {[
               { i: Users, k: "12 bairros", v: "atendidos" },
               { i: MapPin, k: "47 pontos", v: "na Rede ECOAR" },
-              { i: Coins, k: "184k RAIZ", v: "distribuídos" },
+              { i: Coins, k: "184k sementes", v: "distribuídas" },
               { i: Trophy, k: "98%", v: "satisfação cidadã" },
             ].map(({ i: Icon, k, v }) => (
               <div
@@ -363,7 +363,7 @@ function Landing() {
                 Faça parte do ECOAR. Cada ação ecoa pelo Sertão.
               </h2>
               <p className="mt-3 max-w-xl opacity-90">
-                Cadastre sua família, participe das atividades comunitárias e acumule RAIZ para
+                Cadastre sua família, participe das atividades comunitárias e acumule sementes para
                 trocar por benefícios reais oferecidos pela Prefeitura de Arcoverde.
               </p>
             </div>
