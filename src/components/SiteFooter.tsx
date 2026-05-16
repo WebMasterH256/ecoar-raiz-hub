@@ -14,11 +14,15 @@ export function SiteFooter() {
               A inovação social que Arcoverde precisava.
             </p>
             <div className="mt-8 flex gap-4">
-              {[Instagram, Twitter, Github].map((Icon, i) => (
-                <a key={i} href="#" className="flex h-10 w-10 items-center justify-center rounded-full bg-card border border-border text-muted-foreground transition-all hover:border-primary hover:text-primary hover:shadow-soft">
-                  <Icon className="h-5 w-5" />
-                </a>
-              ))}
+              <a href="#" className="flex h-10 w-10 items-center justify-center rounded-full bg-card border border-border text-muted-foreground transition-all hover:border-primary hover:text-primary hover:shadow-soft">
+                <Instagram className="h-5 w-5" />
+              </a>
+              <a href="#" className="flex h-10 w-10 items-center justify-center rounded-full bg-card border border-border text-muted-foreground transition-all hover:border-primary hover:text-primary hover:shadow-soft">
+                <Twitter className="h-5 w-5" />
+              </a>
+              <a href="#" className="flex h-10 w-10 items-center justify-center rounded-full bg-card border border-border text-muted-foreground transition-all hover:border-primary hover:text-primary hover:shadow-soft">
+                <Github className="h-5 w-5" />
+              </a>
             </div>
           </div>
           
@@ -55,3 +59,4 @@ export function SiteFooter() {
     </footer>
   );
 }
+
