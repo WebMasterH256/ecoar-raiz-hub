@@ -146,6 +146,33 @@ export type Database = {
         }
         Relationships: []
       }
+      rede_locais: {
+        Row: {
+          categoria: string
+          created_at: string
+          endereco: string
+          id: string
+          maps_url: string | null
+          nome: string
+        }
+        Insert: {
+          categoria: string
+          created_at?: string
+          endereco: string
+          id?: string
+          maps_url?: string | null
+          nome: string
+        }
+        Update: {
+          categoria?: string
+          created_at?: string
+          endereco?: string
+          id?: string
+          maps_url?: string | null
+          nome?: string
+        }
+        Relationships: []
+      }
       resgates: {
         Row: {
           created_at: string
