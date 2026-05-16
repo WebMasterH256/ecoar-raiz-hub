@@ -8,7 +8,7 @@ export function Logo({ size = 36, withText = true }: { size?: number; withText?:
         alt="ECOAR"
         width={size}
         height={size}
-        className="rounded-full shadow-soft"
+        className="rounded-full shadow-glow ring-2 ring-primary/30 bg-background object-cover"
         style={{ width: size, height: size }}
       />
       {withText && (
