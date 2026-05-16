@@ -8,7 +8,7 @@ export function SiteHeader() {
   const [user, setUser] = useState<any>(null);
 
   useEffect(() => {
-    supabase.auth.getUser().then(({ data }) => setUser(data.user));
+    supabase.auth.getUser().then(({ data }: { data: any }) => setUser(data.user));
   }, []);
 
   return (
