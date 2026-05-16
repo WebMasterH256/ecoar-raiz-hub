@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("EcoarBackend")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b503290baa78438a4839ab0096e7e644f862622f")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5f8eea8e1b7996eaee26ff90b548a970142c1dfa")]
 [assembly: System.Reflection.AssemblyProductAttribute("EcoarBackend")]
 [assembly: System.Reflection.AssemblyTitleAttribute("EcoarBackend")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
