@@ -13,16 +13,14 @@ export const atividadesService = {
   },
   
   async inscrever(atividadeId: string, profileId: string) {
-    // Para o MVP mockado, simulamos a inscrição se não houver usuário logado
     const { data: { user } } = await supabase.auth.getUser();
     const id = user?.id || profileId;
 
     const { error: regError } = await supabase.from('inscricoes').insert({
       atividade_id: atividadeId,
-      profile_id: id === "demo-user-id" ? undefined : id // Fallback para MVP
+      profile_id: id === "demo-user-id" ? undefined : id
     });
     
-    // Se falhar por RLS/Auth, simulamos sucesso no UI para o MVP
     if (regError && id === "demo-user-id") return;
     if (regError) throw regError;
 
@@ -43,16 +41,19 @@ export const recompensaService = {
 
     const { data: profile } = await supabase.from('profiles').select('sementes').eq('id', id).single();
     
-    if (id !== "demo-user-id" && (!profile || profile.sementes < custo)) {
-      throw new Error('Saldo insuficiente');
+    if (id !== "demo-user-id") {
+      if (!profile) throw new Error('Perfil não encontrado');
+      if (profile.sementes < custo) throw new Error('Saldo insuficiente');
     }
 
-    await supabase.from('resgates').insert({
+    const { error: resgateError } = await supabase.from('resgates').insert({
       recompensa_id: recompensaId,
       profile_id: id === "demo-user-id" ? undefined : id
     });
 
-    if (id !== "demo-user-id") {
+    if (resgateError && id !== "demo-user-id") throw resgateError;
+
+    if (id !== "demo-user-id" && profile) {
       await supabase.from('profiles').update({
         sementes: profile.sementes - custo
       }).eq('id', id);
