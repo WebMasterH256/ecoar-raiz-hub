@@ -7,9 +7,10 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
-import { levelFor } from "@/lib/mock-data";
+import { levelFor, activities as mockActivities, ranking as mockRanking, rewards as mockRewards, networkPlaces as mockNetworkPlaces } from "@/lib/mock-data";
 import { Home, Calendar, Trophy, Map as MapIcon, Gift, History, UserRound, LogOut, Search, Bell, Sprout, MapPin, ArrowRight, PlayCircle, Award } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
+import vEquipe from "@/assets/visita-equipe.jpg";
 
 export const Route = createFileRoute("/painel")({
   head: () => ({ meta: [{ title: "Painel — ECOAR" }] }),
@@ -28,7 +29,10 @@ function Painel() {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return null;
       const { data, error } = await supabase.from("profiles").select("*").eq("id", user.id).single();
-      if (error) throw error;
+      if (error) {
+        console.error("Profile fetch error:", error);
+        return { nome: user.email?.split("@")[0] || "Cidadão", sementes: 0, nivel: "Broto" };
+      }
       return data;
     },
   });
@@ -102,14 +106,14 @@ function Painel() {
         </header>
 
         <div className="mx-auto max-w-7xl px-4 py-8 sm:px-8">
-          {section === "inicio" && <Inicio profile={profile} raiz={myRaiz} levelName={myLevel.name} setSection={setSection} />}
+          {section === "inicio" && <Inicio name={profile?.nome ?? "Cidadão"} raiz={myRaiz} levelName={myLevel.name} setSection={setSection} />}
           {section === "atividades" && <AtividadesView />}
           {section === "ranking" && <RankingView />}
           {section === "rede" && <RedeView />}
-          {section === "recompensas" && <RecompensasView profile={profile} />}
+          {section === "recompensas" && <RecompensasView raiz={myRaiz} />}
           {section === "videos" && <VideosView />}
           {section === "historico" && <HistoricoView />}
-          {section === "perfil" && <PerfilView profile={profile} />}
+          {section === "perfil" && <PerfilView name={profile?.nome ?? "Cidadão"} email={profile?.id ?? ""} raiz={myRaiz} />}
         </div>
       </main>
     </div>
