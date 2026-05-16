@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { levelFor, activities as mockActivities, ranking as mockRanking, rewards as mockRewards, networkPlaces as mockNetworkPlaces } from "@/lib/mock-data";
-import { Home, Calendar, Trophy, Map as MapIcon, Gift, History, UserRound, LogOut, Search, Bell, Sprout, MapPin, ArrowRight, PlayCircle, Award } from "lucide-react";
+import { Home, Calendar, Trophy, Map as MapIcon, Gift, History, UserRound, LogOut, Search, Bell, Sprout, MapPin, ArrowRight, PlayCircle, Award, TreePine } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import vEquipe from "@/assets/visita-equipe.jpg";
 
