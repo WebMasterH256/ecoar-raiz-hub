@@ -31,10 +31,11 @@ function Painel() {
       const { data, error } = await supabase.from("profiles").select("*").eq("id", user.id).single();
       if (error) {
         console.error("Profile fetch error:", error);
-        return { nome: user.email?.split("@")[0] || "Cidadão", sementes: 0, nivel: "Broto" };
+        return { nome: user.email?.split("@")[0] || "Cidadão", sementes: 0, nivel: "Broto", id: user.id };
       }
       return data;
     },
+    enabled: typeof window !== 'undefined',
   });
 
   const myRaiz = profile?.sementes ?? 0;
