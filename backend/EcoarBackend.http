@@ -1,0 +1,6 @@
+@EcoarBackend_HostAddress = http://localhost:5239
+
+GET {{EcoarBackend_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
