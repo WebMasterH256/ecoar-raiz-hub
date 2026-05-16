@@ -7,8 +7,9 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
-import { activities, networkPlaces, ranking, rewards, levelFor } from "@/lib/mock-data";
-import { Home, Calendar, Trophy, Map as MapIcon, Gift, History, UserRound, LogOut, Search, Bell, Sprout, MapPin, ArrowRight, PlayCircle, Award } from "lucide-react";
+import { levelFor, activities as mockActivities, ranking as mockRanking, rewards as mockRewards, networkPlaces as mockNetworkPlaces } from "@/lib/mock-data";
+import { Home, Calendar, Trophy, Map as MapIcon, Gift, History, UserRound, LogOut, Search, Bell, Sprout, MapPin, ArrowRight, PlayCircle, Award, TreePine } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
 import vEquipe from "@/assets/visita-equipe.jpg";
 
 export const Route = createFileRoute("/painel")({
@@ -21,23 +22,23 @@ type Section = "inicio" | "atividades" | "ranking" | "rede" | "recompensas" | "v
 function Painel() {
   const navigate = useNavigate();
   const [section, setSection] = useState<Section>("inicio");
-  const [user, setUser] = useState<{ name: string; email: string } | null>(null);
-  const myRaiz = 287;
-  const myLevel = levelFor(myRaiz);
 
-  useEffect(() => {
-    supabase.auth.getUser().then(({ data }) => {
-      const u = data.user;
-      if (u) {
-        setUser({
-          name: (u.user_metadata?.full_name as string) || u.email?.split("@")[0] || "Cidadão",
-          email: u.email || "",
-        });
+  const { data: profile, isLoading: isLoadingProfile } = useQuery({
+    queryKey: ["profile"],
+    queryFn: async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return null;
+      const { data, error } = await supabase.from("profiles").select("*").eq("id", user.id).single();
+      if (error) {
+        console.error("Profile fetch error:", error);
+        return { nome: user.email?.split("@")[0] || "Cidadão", sementes: 0, nivel: "Broto" };
       }
-    });
-  }, []);
+      return data;
+    },
+  });
 
-  
+  const myRaiz = profile?.sementes ?? 0;
+  const myLevel = levelFor(myRaiz);
 
   async function logout() {
     await supabase.auth.signOut();
@@ -54,6 +55,10 @@ function Painel() {
     { id: "historico", label: "Histórico", icon: History },
     { id: "perfil", label: "Meu Perfil", icon: UserRound },
   ];
+
+  if (isLoadingProfile) {
+    return <div className="flex h-screen items-center justify-center">Carregando...</div>;
+  }
 
   return (
     <div className="flex min-h-screen bg-secondary/30">
@@ -91,9 +96,9 @@ function Painel() {
               <span className="absolute -right-0.5 -top-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground">3</span>
             </button>
             <div className="flex items-center gap-3 rounded-full bg-secondary px-1 py-1 pr-4">
-              <div className="flex h-9 w-9 items-center justify-center rounded-full ecoar-gradient text-primary-foreground font-bold">{user?.name?.[0] ?? "C"}</div>
+              <div className="flex h-9 w-9 items-center justify-center rounded-full ecoar-gradient text-primary-foreground font-bold">{profile?.nome?.[0] ?? "C"}</div>
               <div className="hidden sm:block leading-tight">
-                <p className="text-sm font-bold text-foreground">{user?.name ?? "Cidadão"}</p>
+                <p className="text-sm font-bold text-foreground">{profile?.nome ?? "Cidadão"}</p>
                 <p className="text-[10px] uppercase tracking-wider text-primary font-semibold">{myLevel.name}</p>
               </div>
             </div>
@@ -101,14 +106,14 @@ function Painel() {
         </header>
 
         <div className="mx-auto max-w-7xl px-4 py-8 sm:px-8">
-          {section === "inicio" && <Inicio name={user?.name ?? "Cidadão"} raiz={myRaiz} levelName={myLevel.name} setSection={setSection} />}
+          {section === "inicio" && <Inicio name={profile?.nome ?? "Cidadão"} raiz={myRaiz} levelName={myLevel.name} setSection={setSection} />}
           {section === "atividades" && <AtividadesView />}
           {section === "ranking" && <RankingView />}
           {section === "rede" && <RedeView />}
           {section === "recompensas" && <RecompensasView raiz={myRaiz} />}
           {section === "videos" && <VideosView />}
           {section === "historico" && <HistoricoView />}
-          {section === "perfil" && <PerfilView name={user?.name ?? "Cidadão"} email={user?.email ?? ""} raiz={myRaiz} />}
+          {section === "perfil" && <PerfilView name={profile?.nome ?? "Cidadão"} email={profile?.id ?? ""} raiz={myRaiz} />}
         </div>
       </main>
     </div>
@@ -172,7 +177,7 @@ function Inicio({ name, raiz, levelName, setSection }: { name: string; raiz: num
             <button onClick={() => setSection("atividades")} className="text-sm font-bold text-primary hover:underline">Ver todas →</button>
           </div>
           <div className="divide-y divide-border">
-            {activities.slice(0, 5).map(a => (
+            {mockActivities.slice(0, 5).map((a: any) => (
               <div key={a.id} className="flex items-center gap-4 p-5">
                 <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary-soft"><Calendar className="h-5 w-5 text-primary" /></div>
                 <div className="min-w-0 flex-1">
@@ -203,7 +208,7 @@ function Inicio({ name, raiz, levelName, setSection }: { name: string; raiz: num
               <button onClick={() => setSection("ranking")} className="text-xs font-bold text-primary hover:underline">Completo →</button>
             </div>
             <div className="grid grid-cols-3 gap-2 p-5">
-              {ranking.slice(0, 3).map((r, i) => (
+              {mockRanking.slice(0, 3).map((r: any, i: number) => (
                 <div key={r.pos} className="flex flex-col items-center text-center">
                   <div className={`relative flex h-16 w-16 items-center justify-center rounded-full ecoar-gradient text-xl font-extrabold text-primary-foreground ${i === 0 ? "ring-4 ring-primary/30" : ""}`}>{r.name[0]}<span className="absolute -bottom-1 -right-1 flex h-6 w-6 items-center justify-center rounded-full bg-foreground text-[10px] font-extrabold text-background">{r.pos}</span></div>
                   <p className="mt-2 truncate w-full text-xs font-semibold">{r.name}</p>
@@ -212,7 +217,7 @@ function Inicio({ name, raiz, levelName, setSection }: { name: string; raiz: num
               ))}
             </div>
             <div className="border-t border-border">
-              {ranking.slice(3, 8).map(r => (
+              {mockRanking.slice(3, 8).map((r: any) => (
                 <div key={r.pos} className={`flex items-center justify-between px-6 py-2.5 text-sm ${r.you ? "bg-primary-soft" : ""}`}>
                   <span className="flex items-center gap-3"><span className="w-5 text-muted-foreground font-semibold">{r.pos}</span><span className={`font-medium ${r.you ? "text-primary" : ""}`}>{r.name}</span></span>
                   <span className="text-xs font-semibold text-muted-foreground">{r.raiz} sementes</span>
@@ -227,7 +232,7 @@ function Inicio({ name, raiz, levelName, setSection }: { name: string; raiz: num
               <button onClick={() => setSection("recompensas")} className="text-xs font-bold text-primary hover:underline">Ver todas →</button>
             </div>
             <div className="divide-y divide-border">
-              {rewards.slice(0, 4).map(r => (
+              {mockRewards.slice(0, 4).map((r: any) => (
                 <div key={r.id} className="flex items-center justify-between gap-3 px-6 py-3">
                   <div className="min-w-0">
                     <p className="truncate text-sm font-semibold">{r.name}</p>
@@ -249,7 +254,7 @@ function AtividadesView() {
     <div className="space-y-6">
       <div><h1 className="font-display text-4xl font-extrabold">Atividades</h1><p className="mt-1 text-muted-foreground">Inscreva-se, participe, acumule sementes.</p></div>
       <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-        {activities.map(a => {
+        {mockActivities.map((a: any) => {
           const lotado = a.enrolled >= a.capacity;
           const pct = (a.enrolled / a.capacity) * 100;
           return (
@@ -285,12 +290,12 @@ function AtividadesView() {
 }
 
 function RankingView() {
-  const [a1, a2, a3, ...rest] = ranking;
+  const [a1, a2, a3, ...rest] = mockRanking;
   return (
     <div className="space-y-6">
       <div><h1 className="font-display text-4xl font-extrabold">Ranking ECOAR</h1><p className="mt-1 text-muted-foreground">A sua participação ecoa no território.</p></div>
       <div className="grid gap-4 md:grid-cols-3">
-        {[a2, a1, a3].map((r, i) => {
+        {[a2, a1, a3].map((r: any, i: number) => {
           const order = i === 1 ? "md:scale-110 md:-translate-y-3" : "";
           return (
             <Card key={r.pos} className={`relative overflow-hidden border-border/60 p-6 text-center ${order}`}>
@@ -306,7 +311,7 @@ function RankingView() {
       </div>
       <Card className="border-border/60 overflow-hidden">
         <div className="divide-y divide-border">
-          {rest.map(r => (
+          {rest.map((r: any) => (
             <div key={r.pos} className={`flex items-center gap-4 px-6 py-4 ${r.you ? "bg-primary-soft" : ""}`}>
               <span className="w-6 text-center font-display text-lg font-extrabold text-muted-foreground">{r.pos}</span>
               <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary-soft text-sm font-bold text-primary">{r.name[0]}</div>
@@ -326,19 +331,19 @@ function RankingView() {
 function RedeView() {
   const cats = ["Hortas", "Cozinhas", "Produtores", "Pontos de Troca", "Ações Sociais"] as const;
   const [active, setActive] = useState<typeof cats[number]>("Hortas");
-  const filtered = networkPlaces.filter(p => p.category === active);
+  const filtered = mockNetworkPlaces.filter((p: any) => p.category === active);
   return (
     <div className="space-y-6">
       <div><h1 className="font-display text-4xl font-extrabold">Rede ECOAR</h1><p className="mt-1 text-muted-foreground">Conheça os espaços e iniciativas que transformam Arcoverde.</p></div>
       <div className="flex flex-wrap gap-2">
         {cats.map(c => (
           <button key={c} onClick={() => setActive(c)} className={`rounded-full px-5 py-2.5 text-sm font-semibold transition-all ${active === c ? "bg-primary text-primary-foreground shadow-elegant" : "bg-card border border-border text-muted-foreground hover:border-primary hover:text-primary"}`}>
-            {c} <span className="ml-1 text-xs opacity-70">{networkPlaces.filter(p => p.category === c).length}</span>
+            {c} <span className="ml-1 text-xs opacity-70">{mockNetworkPlaces.filter((p: any) => p.category === c).length}</span>
           </button>
         ))}
       </div>
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-        {filtered.map(p => (
+        {filtered.map((p: any) => (
           <Card key={p.id} className="border-border/60 p-5">
             <div className="flex items-start gap-3">
               <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary-soft"><MapPin className="h-5 w-5 text-primary" /></div>
@@ -360,7 +365,7 @@ function RecompensasView({ raiz }: { raiz: number }) {
     <div className="space-y-6">
       <div><h1 className="font-display text-4xl font-extrabold">Recompensas</h1><p className="mt-1 text-muted-foreground">Troque suas sementes por benefícios reais. Saldo atual: <strong className="text-primary">{raiz} sementes</strong></p></div>
       <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-        {rewards.map(r => {
+        {mockRewards.map((r: any) => {
           const ok = raiz >= r.cost;
           return (
             <Card key={r.id} className="border-border/60 p-6">
@@ -425,17 +430,43 @@ function HistoricoView() {
 function PerfilView({ name, email, raiz }: { name: string; email: string; raiz: number }) {
   return (
     <div className="space-y-6">
-      <div><h1 className="font-display text-4xl font-extrabold">Meu Perfil</h1></div>
-      <Card className="border-border/60 p-8">
-        <div className="flex flex-wrap items-center gap-6">
-          <div className="flex h-24 w-24 items-center justify-center rounded-full ecoar-gradient text-3xl font-extrabold text-primary-foreground shadow-elegant">{name[0]}</div>
-          <div className="flex-1">
-            <h2 className="font-display text-2xl font-extrabold">{name}</h2>
-            <p className="text-muted-foreground">{email}</p>
-            <p className="mt-2 ecoar-chip">{levelFor(raiz).name} · {raiz} sementes</p>
+      <div><h1 className="font-display text-4xl font-extrabold">Meu Perfil</h1><p className="mt-1 text-muted-foreground">Suas informações e conquistas.</p></div>
+      <div className="grid gap-6 md:grid-cols-2">
+        <Card className="p-6 border-border/60">
+          <div className="flex items-center gap-4">
+            <div className="flex h-20 w-20 items-center justify-center rounded-full ecoar-gradient text-2xl font-extrabold text-primary-foreground shadow-elegant">{name?.[0]}</div>
+            <div>
+              <p className="font-display text-2xl font-extrabold">{name}</p>
+              <p className="text-muted-foreground">{email}</p>
+            </div>
           </div>
-        </div>
-      </Card>
+          <div className="mt-8 space-y-4">
+            <div className="flex justify-between border-b border-border pb-4">
+              <p className="font-semibold text-muted-foreground">Saldo Total</p>
+              <p className="font-display text-lg font-extrabold text-primary">{raiz} sementes</p>
+            </div>
+            <div className="flex justify-between border-b border-border pb-4">
+              <p className="font-semibold text-muted-foreground">Nível Atual</p>
+              <p className="font-display text-lg font-extrabold text-primary">{levelFor(raiz).name}</p>
+            </div>
+          </div>
+        </Card>
+        <Card className="p-6 border-border/60">
+          <h3 className="font-display text-xl font-bold">Conquistas</h3>
+          <div className="mt-6 grid grid-cols-3 gap-4">
+            {[
+              { l: "Pioneiro", i: Award },
+              { l: "Colhedor", i: Sprout },
+              { l: "Guardião", i: TreePine },
+            ].map((c, idx) => (
+              <div key={idx} className="flex flex-col items-center text-center">
+                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-secondary text-primary shadow-inner"><c.i className="h-7 w-7" /></div>
+                <p className="mt-2 text-[10px] font-bold uppercase tracking-wider text-muted-foreground">{c.l}</p>
+              </div>
+            ))}
+          </div>
+        </Card>
+      </div>
     </div>
   );
 }

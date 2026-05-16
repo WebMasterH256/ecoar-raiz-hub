@@ -14,13 +14,207 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      atividades: {
+        Row: {
+          categoria: string
+          created_at: string
+          data: string | null
+          descricao: string | null
+          id: string
+          inscritos: number | null
+          local: string | null
+          nome: string
+          sementes: number | null
+          status: string | null
+          vagas: number | null
+        }
+        Insert: {
+          categoria: string
+          created_at?: string
+          data?: string | null
+          descricao?: string | null
+          id?: string
+          inscritos?: number | null
+          local?: string | null
+          nome: string
+          sementes?: number | null
+          status?: string | null
+          vagas?: number | null
+        }
+        Update: {
+          categoria?: string
+          created_at?: string
+          data?: string | null
+          descricao?: string | null
+          id?: string
+          inscritos?: number | null
+          local?: string | null
+          nome?: string
+          sementes?: number | null
+          status?: string | null
+          vagas?: number | null
+        }
+        Relationships: []
+      }
+      inscricoes: {
+        Row: {
+          atividade_id: string | null
+          created_at: string
+          id: string
+          profile_id: string | null
+          status: string | null
+        }
+        Insert: {
+          atividade_id?: string | null
+          created_at?: string
+          id?: string
+          profile_id?: string | null
+          status?: string | null
+        }
+        Update: {
+          atividade_id?: string | null
+          created_at?: string
+          id?: string
+          profile_id?: string | null
+          status?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "inscricoes_atividade_id_fkey"
+            columns: ["atividade_id"]
+            isOneToOne: false
+            referencedRelation: "atividades"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "inscricoes_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          bairro: string | null
+          created_at: string
+          id: string
+          nivel: string | null
+          nome: string | null
+          sementes: number | null
+        }
+        Insert: {
+          bairro?: string | null
+          created_at?: string
+          id: string
+          nivel?: string | null
+          nome?: string | null
+          sementes?: number | null
+        }
+        Update: {
+          bairro?: string | null
+          created_at?: string
+          id?: string
+          nivel?: string | null
+          nome?: string | null
+          sementes?: number | null
+        }
+        Relationships: []
+      }
+      recompensas: {
+        Row: {
+          created_at: string
+          custo: number
+          id: string
+          nome: string
+          tag: string | null
+        }
+        Insert: {
+          created_at?: string
+          custo: number
+          id?: string
+          nome: string
+          tag?: string | null
+        }
+        Update: {
+          created_at?: string
+          custo?: number
+          id?: string
+          nome?: string
+          tag?: string | null
+        }
+        Relationships: []
+      }
+      rede_locais: {
+        Row: {
+          categoria: string
+          created_at: string
+          endereco: string
+          id: string
+          maps_url: string | null
+          nome: string
+        }
+        Insert: {
+          categoria: string
+          created_at?: string
+          endereco: string
+          id?: string
+          maps_url?: string | null
+          nome: string
+        }
+        Update: {
+          categoria?: string
+          created_at?: string
+          endereco?: string
+          id?: string
+          maps_url?: string | null
+          nome?: string
+        }
+        Relationships: []
+      }
+      resgates: {
+        Row: {
+          created_at: string
+          id: string
+          profile_id: string | null
+          recompensa_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          profile_id?: string | null
+          recompensa_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          profile_id?: string | null
+          recompensa_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "resgates_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "resgates_recompensa_id_fkey"
+            columns: ["recompensa_id"]
+            isOneToOne: false
+            referencedRelation: "recompensas"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      increment_inscritos: { Args: { row_id: string }; Returns: undefined }
     }
     Enums: {
       [_ in never]: never
