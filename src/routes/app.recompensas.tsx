@@ -16,20 +16,20 @@ function RecompensasPage() {
             Cuidado que se espalha
           </div>
           <h1 className="mt-2 font-display text-3xl font-bold">Recompensas</h1>
-          <p className="mt-1 text-muted-foreground">Troque RAIZ por benefícios reais.</p>
+          <p className="mt-1 text-muted-foreground">Troque sementes por benefícios reais.</p>
         </div>
         <div className="flex items-center gap-3 rounded-2xl border border-border bg-surface px-5 py-3 shadow-soft">
           <Coins className="size-5 text-primary" />
           <div>
             <div className="text-[10px] uppercase tracking-wider text-muted-foreground">Saldo</div>
-            <div className="font-display text-xl font-bold">{cidadaoDemo.raiz} RAIZ</div>
+            <div className="font-display text-xl font-bold">{cidadaoDemo.sementes} sementes</div>
           </div>
         </div>
       </header>
 
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
         {recompensas.map((r) => {
-          const podeTrocar = cidadaoDemo.raiz >= r.custo;
+          const podeTrocar = cidadaoDemo.sementes >= r.custo;
           return (
             <div
               key={r.id}
@@ -44,7 +44,7 @@ function RecompensasPage() {
               <div className="flex flex-1 flex-col p-5">
                 <h3 className="font-display text-base font-bold">{r.nome}</h3>
                 <div className="mt-2 flex items-center gap-1 text-sm font-semibold text-primary">
-                  <Coins className="size-4" /> {r.custo} RAIZ
+                  <Coins className="size-4" /> {r.custo} sementes
                 </div>
                 <Button
                   variant={podeTrocar ? "hero" : "outline"}
@@ -52,7 +52,7 @@ function RecompensasPage() {
                   className="mt-4"
                   disabled={!podeTrocar}
                 >
-                  {podeTrocar ? "Resgatar agora" : `Faltam ${r.custo - cidadaoDemo.raiz}`}
+                  {podeTrocar ? "Resgatar agora" : `Faltam ${r.custo - cidadaoDemo.sementes}`}
                 </Button>
               </div>
             </div>

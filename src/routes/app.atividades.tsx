@@ -20,7 +20,7 @@ function AtividadesPage() {
         </div>
         <h1 className="mt-2 font-display text-3xl font-bold">Atividades ECOAR</h1>
         <p className="mt-1 text-muted-foreground">
-          Inscreva-se nas ações comunitárias e acumule RAIZ.
+          Inscreva-se nas ações comunitárias e acumule sementes.
         </p>
       </header>
 
@@ -75,7 +75,7 @@ function Section({
                 <div className="flex items-center gap-2"><Users className="size-3.5" /> {a.inscritos}/{a.vagas} inscritos</div>
               </div>
               <div className="mt-4 flex items-center justify-between gap-2 border-t border-border pt-4">
-                <span className="font-semibold text-primary">+{a.raiz} RAIZ</span>
+                <span className="font-semibold text-primary">+{a.sementes} sementes</span>
                 <Button variant={lotado ? "outline" : "hero"} size="sm">
                   {lotado ? "Lista de espera" : "Inscrever-se"}
                 </Button>
