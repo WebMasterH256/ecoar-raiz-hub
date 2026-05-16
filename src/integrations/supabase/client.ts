@@ -56,10 +56,13 @@ export const supabase = {
         return { data: null, error };
       }
     },
-    signOut: async () => {
-      localStorage.removeItem("ecoar_token");
-      localStorage.removeItem("ecoar_user");
-      return { error: null };
+    getSession: async () => {
+      const token = typeof window !== 'undefined' ? localStorage.getItem("ecoar_token") : null;
+      return { data: { session: token ? { access_token: token } : null } };
+    },
+    setSession: async (tokens: any) => {
+      if (tokens?.access_token) localStorage.setItem("ecoar_token", tokens.access_token);
+      return { data: { session: tokens }, error: null };
     },
   },
   from: (table: string) => ({
