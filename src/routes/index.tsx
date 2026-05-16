@@ -1,401 +1,280 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { motion } from "framer-motion";
-import {
-  Sprout,
-  Utensils,
-  Recycle,
-  ArrowRight,
-  MapPin,
-  Sparkles,
-  Users,
-  Leaf,
-  Building2,
-  Trophy,
-  Coins,
-} from "lucide-react";
-import { SiteHeader } from "@/components/ecoar/SiteHeader";
-import { Logo } from "@/components/ecoar/Logo";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import { SiteHeader } from "@/components/SiteHeader";
+import { SiteFooter } from "@/components/SiteFooter";
+import { EcoarLogo } from "@/components/EcoarLogo";
 import { Button } from "@/components/ui/button";
-import { suasOrgaos, frasesInstitucionais } from "@/lib/ecoar-data";
-import visita1 from "@/assets/comunidade/visita-1.jpeg";
-import visita2 from "@/assets/comunidade/visita-2.jpeg";
-import visita3 from "@/assets/comunidade/visita-3.jpeg";
-import visita4 from "@/assets/comunidade/visita-4.jpeg";
-import visita5 from "@/assets/comunidade/visita-5.jpeg";
-import visita6 from "@/assets/comunidade/visita-6.jpeg";
-
-const visitas = [
-  { src: visita1, legenda: "Encontro institucional na Associação Cultural Raízes do Sertão" },
-  { src: visita2, legenda: "Escuta ativa com lideranças comunitárias" },
-  { src: visita4, legenda: "Diálogo com gestoras culturais do território" },
-  { src: visita3, legenda: "Reconhecimento do espaço de convivência" },
-  { src: visita5, legenda: "Visita técnica às obras de ampliação" },
-  { src: visita6, legenda: "Levantamento de demandas estruturais" },
-];
+import { Card } from "@/components/ui/card";
+import logo from "@/assets/ecoar-logo.png";
+import concept from "@/assets/ecoar-concept.png";
+import v1 from "@/assets/visita-1.jpg";
+import v2 from "@/assets/visita-2.jpg";
+import v3 from "@/assets/visita-3.jpg";
+import v4 from "@/assets/visita-4.jpg";
+import v5 from "@/assets/visita-5.jpg";
+import vEquipe from "@/assets/visita-equipe.jpg";
+import crasLogo from "@/assets/orgaos/cras.png";
+import creasLogo from "@/assets/orgaos/creas.png";
+import scfvLogo from "@/assets/orgaos/scfv.png";
+import bpcLogo from "@/assets/orgaos/bpc.png";
+import bolsaFamiliaLogo from "@/assets/orgaos/bolsa-familia.png";
+import cadunicoLogo from "@/assets/orgaos/cadunico.png";
+import { Sprout, Recycle, Apple, MapPin, Users, Leaf, TreePine, ArrowRight, Quote } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "ECOAR — Estratégia de Cuidado, Oportunidades, Alimentação e Reaproveitamento" },
-      {
-        name: "description",
-        content:
-          "Plataforma institucional da Prefeitura de Arcoverde que transforma sustentabilidade em participação cidadã com a moeda digital RAIZ.",
-      },
-      { property: "og:title", content: "ECOAR — Prefeitura de Arcoverde" },
-      {
-        property: "og:description",
-        content: "Conectando famílias, hortas, cozinhas e reaproveitamento no Portal do Sertão.",
-      },
+      { title: "ECOAR — Prefeitura de Arcoverde · Inovação Social" },
+      { name: "description", content: "Plataforma pública que conecta famílias, ações comunitárias, alimentação, reaproveitamento e cidadania no Portal do Sertão." },
+      { property: "og:title", content: "ECOAR — Cidade Forte Novamente" },
+      { property: "og:description", content: "Transformando ações sustentáveis em participação social por meio da moeda digital sementes." },
     ],
   }),
   component: Landing,
 });
 
-const fadeUp = {
-  hidden: { opacity: 0, y: 24 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] as const } },
-};
+const stats = [
+  { v: "2.400+", l: "famílias atendidas" },
+  { v: "85", l: "hortas comunitárias" },
+  { v: "12", l: "cozinhas ativas" },
+  { v: "18 t", l: "desperdício reduzido" },
+];
 
-function Stat({ value, label }: { value: string; label: string }) {
-  return (
-    <div className="rounded-2xl border border-border/60 bg-surface/70 p-5 shadow-soft backdrop-blur">
-      <div className="font-display text-3xl font-bold text-gradient-sun">{value}</div>
-      <div className="mt-1 text-xs font-medium uppercase tracking-wider text-muted-foreground">
-        {label}
-      </div>
-    </div>
-  );
-}
+const pillars = [
+  { icon: Sprout, name: "Produzir", desc: "Fortalecimento da agricultura familiar, hortas urbanas e produção sustentável." },
+  { icon: Apple, name: "Consumir", desc: "Segurança alimentar e distribuição consciente para todas as famílias." },
+  { icon: Recycle, name: "Reaproveitar", desc: "Economia circular e combate ativo ao desperdício no município." },
+];
 
 function Landing() {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-background text-foreground">
       <SiteHeader />
 
       {/* HERO */}
-      <section className="relative overflow-hidden bg-gradient-hero">
-        <div className="container mx-auto grid gap-12 px-4 py-20 lg:grid-cols-[1.2fr_1fr] lg:py-28">
-          <motion.div initial="hidden" animate="show" variants={fadeUp}>
-            <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-primary/30 bg-surface/70 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-primary backdrop-blur">
-              <Sparkles className="size-3.5" /> Prefeitura de Arcoverde • Inovação Social
-            </div>
-            <h1 className="font-display text-4xl font-bold leading-[1.05] text-foreground sm:text-5xl lg:text-6xl">
-              Transformando sustentabilidade em <span className="text-gradient-sun">participação social</span> no Portal do Sertão
+      <section className="relative overflow-hidden">
+        <div className="absolute inset-0 ecoar-radial pointer-events-none" />
+        <div className="absolute -top-32 -right-24 h-[520px] w-[520px] rounded-full bg-primary/10 blur-3xl" />
+        <div className="relative mx-auto grid max-w-7xl gap-12 px-4 pb-24 pt-16 sm:px-6 lg:grid-cols-12 lg:gap-8 lg:px-8 lg:pt-24">
+          <div className="lg:col-span-7">
+            <span className="ecoar-chip">
+              <span className="h-1.5 w-1.5 rounded-full bg-primary" />
+              Prefeitura de Arcoverde · Inovação Social
+            </span>
+            <h1 className="mt-6 font-display text-5xl font-extrabold leading-[1.05] text-foreground sm:text-6xl lg:text-7xl">
+              Transformando <span className="text-primary">sustentabilidade</span> em participação social no Portal do Sertão.
             </h1>
-            <p className="mt-6 max-w-xl text-lg text-muted-foreground">
-              Uma plataforma pública que conecta famílias, ações comunitárias, alimentação,
-              reaproveitamento e cidadania — com a moeda digital{" "}
-              <span className="font-semibold text-foreground">RAIZ</span>.
+            <p className="mt-6 max-w-2xl text-lg leading-relaxed text-muted-foreground">
+              Uma plataforma pública que conecta famílias, ações comunitárias, alimentação, reaproveitamento e cidadania — 
+              transformando cuidado em <span className="font-semibold text-foreground">sementes</span>, a moeda social do ECOAR.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
-              <Link to="/login">
-                <Button variant="hero" size="xl">
-                  Cadastrar Família <ArrowRight className="size-4" />
+              <Link to="/auth" search={{ mode: 'signup' }}>
+                <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 shadow-elegant rounded-full px-7 h-12 text-base font-semibold">
+                  Cadastrar Família <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </Link>
-              <Link to="/app">
-                <Button variant="outline" size="xl">
+              <Link to="/auth" search={{ mode: 'login' }}>
+                <Button size="lg" variant="outline" className="border-2 border-primary/30 text-foreground hover:bg-primary-soft rounded-full px-7 h-12 text-base font-semibold">
                   Acessar Plataforma
                 </Button>
               </Link>
               <Link to="/admin">
-                <Button variant="ghost" size="xl">
+                <Button size="lg" variant="ghost" className="text-foreground hover:text-primary rounded-full px-5 h-12 text-base font-semibold">
                   Painel da Gestão
                 </Button>
               </Link>
             </div>
 
-            <div className="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-4">
-              <Stat value="2.400+" label="Famílias atendidas" />
-              <Stat value="85" label="Hortas comunitárias" />
-              <Stat value="12" label="Cozinhas ativas" />
-              <Stat value="18 t" label="Desperdício reduzido" />
-            </div>
-          </motion.div>
+            <dl className="mt-14 grid grid-cols-2 gap-x-6 gap-y-6 sm:grid-cols-4">
+              {stats.map(s => (
+                <div key={s.l}>
+                  <dt className="font-display text-3xl font-extrabold text-primary sm:text-4xl">{s.v}</dt>
+                  <dd className="mt-1 text-xs font-medium uppercase tracking-wider text-muted-foreground">{s.l}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
 
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            className="relative mx-auto flex w-full max-w-md items-center justify-center"
-          >
-            <div className="absolute inset-0 -z-10 rounded-full bg-gradient-sun opacity-20 blur-3xl" />
-            <div className="relative aspect-square w-full max-w-sm rounded-[2.5rem] border border-border/60 bg-surface/80 p-8 shadow-glow backdrop-blur">
-              <div className="flex h-full flex-col items-center justify-center text-center">
-                <Logo size={120} withText={false} />
-                <div className="mt-6 font-display text-2xl font-bold tracking-tight">
-                  ECOAR
-                </div>
-                <p className="mt-2 max-w-[16rem] text-xs leading-relaxed text-muted-foreground">
-                  Estratégia de Cuidado, Oportunidades, Alimentação e Reaproveitamento.
-                </p>
-                <div className="mt-6 flex items-center gap-2 rounded-full bg-accent px-4 py-2 text-xs font-semibold text-accent-foreground">
-                  <Coins className="size-3.5 text-primary" /> Moeda digital RAIZ
-                </div>
+          <div className="relative lg:col-span-5">
+            <div className="relative mx-auto aspect-square max-w-md">
+              <div className="absolute inset-0 rounded-full ecoar-gradient opacity-20 blur-3xl animate-ecoar-pulse" />
+              <div className="relative flex h-full items-center justify-center">
+                <img src={logo} alt="Logotipo ECOAR" className="w-full max-w-[420px] animate-ecoar-float drop-shadow-2xl" />
               </div>
             </div>
-          </motion.div>
-        </div>
-
-        {/* moving phrases ribbon */}
-        <div className="border-y border-border/60 bg-surface/60 backdrop-blur">
-          <div className="container mx-auto flex flex-wrap items-center justify-center gap-x-8 gap-y-2 px-4 py-3 text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">
-            {frasesInstitucionais.slice(0, 5).map((f) => (
-              <span key={f} className="flex items-center gap-2">
-                <Leaf className="size-3 text-primary" /> {f}
-              </span>
-            ))}
+            <div className="absolute -bottom-4 left-4 max-w-[260px] rounded-2xl border border-border/70 bg-card p-4 shadow-soft">
+              <Quote className="h-5 w-5 text-primary" />
+              <p className="mt-2 text-sm font-medium leading-snug text-foreground">
+                Eco de sustentabilidade. Cuidado que reverbera.
+              </p>
+            </div>
           </div>
         </div>
       </section>
 
       {/* PILARES */}
-      <section id="pilares" className="container mx-auto px-4 py-24">
-        <div className="mx-auto max-w-2xl text-center">
-          <div className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-primary">
-            Os três pilares
+      <section id="pilares" className="border-t border-border/60 bg-secondary/30 py-24">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="max-w-2xl">
+            <span className="ecoar-chip">Estrutura ECOAR</span>
+            <h2 className="mt-4 font-display text-4xl font-extrabold sm:text-5xl">
+              Três pilares para <span className="text-primary">cidades fortes</span>.
+            </h2>
+            <p className="mt-4 text-lg text-muted-foreground">
+              Estratégia de Cuidado, Oportunidades, Alimentação e Reaproveitamento — em movimento contínuo.
+            </p>
           </div>
-          <h2 className="font-display text-3xl font-bold sm:text-4xl">
-            Produzir, consumir e reaproveitar
-          </h2>
-          <p className="mt-3 text-muted-foreground">
-            Um ciclo virtuoso que conecta o campo, a mesa e o território.
-          </p>
+          <div className="mt-12 grid gap-6 lg:grid-cols-3">
+            {pillars.map(p => (
+              <Card key={p.name} className="group relative overflow-hidden border-border/60 bg-card p-8 transition-all hover:-translate-y-1 hover:shadow-elegant">
+                <div className="absolute -right-12 -top-12 h-40 w-40 rounded-full bg-primary/10 transition-transform group-hover:scale-125" />
+                <div className="relative">
+                  <div className="flex h-14 w-14 items-center justify-center rounded-2xl ecoar-gradient text-primary-foreground shadow-elegant">
+                    <p.icon className="h-7 w-7" strokeWidth={2.2} />
+                  </div>
+                  <h3 className="mt-6 font-display text-2xl font-bold">{p.name}</h3>
+                  <p className="mt-3 leading-relaxed text-muted-foreground">{p.desc}</p>
+                </div>
+              </Card>
+            ))}
+          </div>
         </div>
+      </section>
 
-        <div className="mt-12 grid gap-6 md:grid-cols-3">
-          {[
-            {
-              icon: Sprout,
-              title: "Produzir",
-              text: "Fortalecimento da agricultura familiar e produção sustentável.",
-            },
-            {
-              icon: Utensils,
-              title: "Consumir",
-              text: "Segurança alimentar e distribuição consciente.",
-            },
-            {
-              icon: Recycle,
-              title: "Reaproveitar",
-              text: "Economia circular e combate ao desperdício.",
-            },
-          ].map((p, i) => (
-            <motion.div
-              key={p.title}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-80px" }}
-              transition={{ delay: i * 0.1, duration: 0.6 }}
-              className="group relative overflow-hidden rounded-3xl border border-border/60 bg-surface p-8 shadow-soft transition-all hover:-translate-y-1 hover:shadow-glow"
-            >
-              <div className="absolute -right-10 -top-10 size-40 rounded-full bg-gradient-sun opacity-10 blur-2xl transition-opacity group-hover:opacity-30" />
-              <div className="mb-5 inline-flex size-14 items-center justify-center rounded-2xl bg-gradient-sun text-primary-foreground shadow-glow">
-                <p.icon className="size-7" />
-              </div>
-              <h3 className="font-display text-xl font-bold">{p.title}</h3>
-              <p className="mt-2 text-sm text-muted-foreground">{p.text}</p>
-            </motion.div>
-          ))}
+      {/* CONCEITO VISUAL */}
+      <section className="py-24">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="grid items-center gap-10 lg:grid-cols-2">
+            <div>
+              <span className="ecoar-chip">Plataforma do cidadão</span>
+              <h2 className="mt-4 font-display text-4xl font-extrabold sm:text-5xl">
+                Cada ação vira <span className="text-primary">sementes</span>.<br />Cada semente vira oportunidade.
+              </h2>
+              <p className="mt-5 text-lg leading-relaxed text-muted-foreground">
+                Um painel intuitivo onde a família acompanha saldo, nível, próximas atividades, ranking comunitário e recompensas municipais — tudo em um só lugar.
+              </p>
+              <ul className="mt-8 space-y-3 text-base">
+                {["Saldo de sementes em tempo real e histórico completo", "Inscrição em mutirões, oficinas e colheitas", "Ranking comunitário com 4 níveis de progressão", "Mapa interativo da Rede ECOAR Arcoverde"].map(t => (
+                  <li key={t} className="flex items-start gap-3">
+                    <span className="mt-1 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground">✓</span>
+                    <span className="text-foreground">{t}</span>
+                  </li>
+                ))}
+              </ul>
+              <Link to="/auth"><Button className="mt-8 bg-primary text-primary-foreground hover:bg-primary/90 rounded-full px-7 h-12 font-semibold shadow-elegant">Conhecer a plataforma <ArrowRight className="ml-2 h-4 w-4" /></Button></Link>
+            </div>
+            <div className="relative">
+              <div className="absolute -inset-6 rounded-[2rem] ecoar-gradient opacity-20 blur-2xl" />
+              <img src={concept} alt="Painel do cidadão ECOAR" className="relative w-full rounded-2xl border border-border shadow-elegant" />
+            </div>
+          </div>
         </div>
       </section>
 
       {/* PORTAL DO SERTÃO */}
-      <section id="sobre" className="bg-surface-soft">
-        <div className="container mx-auto grid gap-10 px-4 py-20 lg:grid-cols-2">
-          <div>
-            <div className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-primary">
-              Portal do Sertão
-            </div>
-            <h2 className="font-display text-3xl font-bold sm:text-4xl">
-              Arcoverde — Pernambuco<br />
-              <span className="text-gradient-sun">Cidade forte novamente</span>
+      <section id="portal" className="relative overflow-hidden border-y border-border/60 bg-gradient-to-br from-primary-soft via-background to-background py-24">
+        <div className="mx-auto grid max-w-7xl gap-12 px-4 sm:px-6 lg:grid-cols-12 lg:px-8">
+          <div className="lg:col-span-5">
+            <span className="ecoar-chip"><MapPin className="h-3 w-3" /> Arcoverde · Pernambuco</span>
+            <h2 className="mt-4 font-display text-5xl font-extrabold leading-tight sm:text-6xl">
+              Portal do Sertão.<br /><span className="text-primary">Cidade Forte Novamente.</span>
             </h2>
-            <p className="mt-5 text-muted-foreground">
-              No coração do sertão pernambucano, o ECOAR articula assistência social, segurança
-              alimentar e tecnologia em torno das famílias. A plataforma traduz cada hora doada,
-              cada quilo reaproveitado e cada planta cultivada em RAIZ — a moeda digital que
-              valoriza quem cuida do território.
+          </div>
+          <div className="lg:col-span-7">
+            <p className="text-xl leading-relaxed text-foreground/85">
+              No coração do sertão pernambucano, o ECOAR fortalece redes de cuidado, dignidade e oportunidades para as famílias arcoverdenses.
             </p>
-            <p className="mt-3 text-muted-foreground">
-              Um modelo replicável de gestão pública inteligente, com inteligência territorial,
-              participação cidadã e impacto mensurável.
+            <p className="mt-5 text-lg italic leading-relaxed text-muted-foreground">
+              "Conectar pessoas, fortalecer territórios — impacto social que ecoa no território."
             </p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              {["Inovação social", "Smart City", "GovTech", "Economia circular"].map((t) => (
-                <span
-                  key={t}
-                  className="rounded-full border border-border bg-surface px-4 py-1.5 text-xs font-medium text-muted-foreground"
-                >
-                  {t}
-                </span>
+            <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-4">
+              {[{ i: TreePine, l: "Sertão" }, { i: Users, l: "Famílias" }, { i: Leaf, l: "Hortas" }, { i: MapPin, l: "Território" }].map(x => (
+                <div key={x.l} className="rounded-2xl border border-border bg-card p-4 text-center">
+                  <x.i className="mx-auto h-6 w-6 text-primary" />
+                  <p className="mt-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">{x.l}</p>
+                </div>
               ))}
             </div>
           </div>
+        </div>
+      </section>
 
-          <div className="grid grid-cols-2 gap-4">
+      {/* SUAS */}
+      <section id="suas" className="py-24">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
+          <span className="ecoar-chip">Integração Institucional</span>
+          <h2 className="mt-4 font-display text-4xl font-extrabold sm:text-5xl">
+            O ECOAR atua integrado à <span className="text-primary">rede socioassistencial</span> municipal.
+          </h2>
+          <p className="mt-6 text-lg text-muted-foreground">CRAS · CREAS · SCFV · BPC · Bolsa Família · CadÚnico</p>
+          <div className="mt-12 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
             {[
-              { i: Users, k: "12 bairros", v: "atendidos" },
-              { i: MapPin, k: "47 pontos", v: "na Rede ECOAR" },
-              { i: Coins, k: "184k RAIZ", v: "distribuídos" },
-              { i: Trophy, k: "98%", v: "satisfação cidadã" },
-            ].map(({ i: Icon, k, v }) => (
-              <div
-                key={k}
-                className="rounded-2xl border border-border bg-surface p-6 shadow-soft"
-              >
-                <Icon className="size-6 text-primary" />
-                <div className="mt-4 font-display text-2xl font-bold">{k}</div>
-                <div className="text-xs uppercase tracking-wider text-muted-foreground">
-                  {v}
-                </div>
+              { name: "CRAS", logo: crasLogo },
+              { name: "CREAS", logo: creasLogo },
+              { name: "SCFV", logo: scfvLogo },
+              { name: "BPC", logo: bpcLogo },
+              { name: "Bolsa Família", logo: bolsaFamiliaLogo },
+              { name: "CadÚnico", logo: cadunicoLogo },
+            ].map(s => (
+              <div key={s.name} className="flex h-32 items-center justify-center rounded-2xl border-2 border-border bg-card p-4 transition-all hover:border-primary hover:bg-primary-soft hover:shadow-elegant">
+                <img src={s.logo} alt={`Logo ${s.name}`} className="max-h-full max-w-full object-contain" />
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* INTEGRAÇÃO SUAS */}
-      <section id="suas" className="container mx-auto px-4 py-24">
-        <div className="mx-auto max-w-2xl text-center">
-          <div className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-primary">
-            Integração SUAS
-          </div>
-          <h2 className="font-display text-3xl font-bold sm:text-4xl">
-            Em rede com a proteção social municipal
-          </h2>
-          <p className="mt-3 text-muted-foreground">
-            O ECOAR atua integrado à rede socioassistencial municipal, fortalecendo políticas
-            públicas por meio da tecnologia, participação cidadã e inteligência territorial.
-          </p>
-        </div>
-
-        <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {suasOrgaos.map((o, i) => (
-            <motion.div
-              key={o.sigla}
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.06 }}
-              className="group relative flex gap-4 rounded-3xl border border-border/60 bg-surface p-6 shadow-soft transition-all hover:-translate-y-1 hover:shadow-glow"
-            >
-              <div className="flex size-16 shrink-0 items-center justify-center rounded-2xl bg-white p-2 shadow-soft ring-1 ring-border/60">
-                <img src={o.logo} alt={`Logo ${o.sigla}`} className="size-full object-contain" />
-              </div>
+      {/* GALERIA */}
+      <section id="galeria" className="border-y border-border/60 bg-secondary/30">
+        <div className="mx-auto px-0">
+          <div className="mx-auto max-w-7xl px-4 pt-24 sm:px-6 lg:px-8">
+            <div className="flex items-end justify-between gap-6 pb-12">
               <div>
-                <div className="flex items-center gap-2">
-                  <h3 className="font-display text-lg font-bold">{o.sigla}</h3>
-                  <span className="inline-flex items-center gap-1 rounded-full bg-success/15 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-success">
-                    <span className="size-1.5 rounded-full bg-success" /> Integrado
-                  </span>
-                </div>
-                <div className="text-xs text-muted-foreground">{o.nome}</div>
-                <p className="mt-2 text-sm text-foreground/80">{o.desc}</p>
+                <span className="ecoar-chip">Território vivo</span>
+                <h2 className="mt-4 font-display text-4xl font-extrabold sm:text-5xl">
+                  Visitas técnicas e <span className="text-primary">rede em ação</span>.
+                </h2>
+                <p className="mt-4 max-w-2xl text-muted-foreground">
+                  Equipe da Prefeitura junto à Associação Cultural Raízes do Sertão — escuta, articulação e cuidado público em movimento.
+                </p>
               </div>
-            </motion.div>
-          ))}
+            </div>
+          </div>
+          <div className="grid gap-0 sm:grid-cols-2 lg:grid-cols-4 w-full">
+            <img src={vEquipe} alt="Equipe ECOAR Arcoverde" className="h-[400px] w-full object-cover sm:col-span-2 sm:row-span-2 sm:h-[600px]" />
+            <img src={v1} alt="Visita à associação Raízes do Sertão" className="h-[200px] w-full object-cover sm:h-[300px]" />
+            <img src={v2} alt="Diálogo com lideranças comunitárias" className="h-[200px] w-full object-cover sm:h-[300px]" />
+            <img src={v3} alt="Visita ao espaço cultural" className="h-[200px] w-full object-cover sm:h-[300px]" />
+            <img src={v4} alt="Vistoria de obras comunitárias" className="h-[200px] w-full object-cover sm:h-[300px]" />
+          </div>
         </div>
       </section>
 
-      {/* COMUNIDADE EM AÇÃO */}
-      <section id="comunidade" className="container mx-auto px-4 py-24">
-        <div className="mx-auto max-w-2xl text-center">
-          <div className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-primary">
-            Comunidade em ação
-          </div>
-          <h2 className="font-display text-3xl font-bold sm:text-4xl">
-            Presença viva no território do Sertão
+      {/* CTA FINAL */}
+      <section className="relative overflow-hidden">
+        <div className="absolute inset-0 ecoar-gradient opacity-95" />
+        <div className="relative mx-auto flex max-w-7xl flex-col items-center gap-8 px-4 py-20 text-center sm:px-6 lg:px-8">
+          <EcoarLogo size={56} withText={false} />
+          <h2 className="max-w-3xl font-display text-4xl font-extrabold leading-tight text-white sm:text-5xl">
+            Sustentabilidade que gera transformação. Participação que fortalece comunidades.
           </h2>
-          <p className="mt-3 text-muted-foreground">
-            Registros das visitas técnicas e escutas comunitárias que dão base ao ECOAR — o cuidado público acontece no encontro com as pessoas.
+          <p className="max-w-2xl text-lg text-white/90">
+            Junte-se ao movimento ECOAR. Cadastre sua família e comece a transformar cuidado em sementes.
           </p>
-        </div>
-
-        <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {visitas.map((v, i) => (
-            <motion.figure
-              key={i}
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.05 }}
-              className="group relative overflow-hidden rounded-[2rem] border border-border/40 bg-white/50 p-2 shadow-soft backdrop-blur-sm transition-all hover:shadow-glow"
-            >
-              <div className="relative aspect-[4/5] overflow-hidden rounded-[1.5rem]">
-                <img
-                  src={v.src}
-                  alt={v.legenda}
-                  loading="lazy"
-                  className="size-full object-cover transition-transform duration-700 group-hover:scale-105"
-                />
-                {/* Decorative overlay for better integration */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 transition-opacity group-hover:opacity-80" />
-                
-                <div className="absolute top-4 left-4">
-                  <div className="inline-flex items-center gap-1.5 rounded-full bg-white/20 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-white backdrop-blur-md border border-white/20">
-                    <MapPin className="size-3" /> Arcoverde
-                  </div>
-                </div>
-
-                <figcaption className="absolute inset-x-0 bottom-0 p-5">
-                  <p className="text-sm font-semibold leading-snug text-white drop-shadow-sm">
-                    {v.legenda}
-                  </p>
-                </figcaption>
-              </div>
-            </motion.figure>
-          ))}
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section className="container mx-auto px-4 pb-24">
-        <div className="relative overflow-hidden rounded-[2.5rem] bg-gradient-sun p-10 text-primary-foreground shadow-glow sm:p-16">
-          <div className="absolute -right-20 -top-20 size-80 rounded-full bg-white/20 blur-3xl" />
-          <div className="relative grid gap-8 lg:grid-cols-[1.4fr_1fr] lg:items-center">
-            <div>
-              <div className="text-xs font-semibold uppercase tracking-[0.25em] opacity-80">
-                O cuidado público em movimento
-              </div>
-              <h2 className="mt-3 font-display text-3xl font-bold leading-tight sm:text-4xl">
-                Faça parte do ECOAR. Cada ação ecoa pelo Sertão.
-              </h2>
-              <p className="mt-3 max-w-xl opacity-90">
-                Cadastre sua família, participe das atividades comunitárias e acumule RAIZ para
-                trocar por benefícios reais oferecidos pela Prefeitura de Arcoverde.
-              </p>
-            </div>
-            <div className="flex flex-wrap gap-3 lg:justify-end">
-              <Link to="/login">
-                <Button size="xl" className="bg-white text-primary hover:bg-white/90">
-                  Cadastrar Família
-                </Button>
-              </Link>
-              <Link to="/app">
-                <Button
-                  size="xl"
-                  variant="outline"
-                  className="border-white/40 bg-transparent text-primary-foreground hover:bg-white/10"
-                >
-                  Acessar Plataforma
-                </Button>
-              </Link>
-            </div>
+          <div className="flex flex-wrap justify-center gap-3">
+            <Link to="/auth" search={{ mode: 'signup' }}>
+              <Button size="lg" className="bg-white text-primary hover:bg-white/95 rounded-full px-8 h-12 font-bold shadow-2xl">Cadastrar Família</Button>
+            </Link>
+            <Link to="/admin">
+              <Button size="lg" variant="outline" className="border-2 border-white/80 bg-transparent text-white hover:bg-white/10 rounded-full px-8 h-12 font-bold">Painel da Gestão</Button>
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* FOOTER */}
-      <footer className="border-t border-border/60 bg-surface">
-        <div className="container mx-auto flex flex-col items-center justify-between gap-4 px-4 py-8 text-sm text-muted-foreground sm:flex-row">
-          <Logo />
-          <div className="text-xs">
-            © {new Date().getFullYear()} Prefeitura de Arcoverde — ECOAR. Todos os direitos reservados.
-          </div>
-        </div>
-      </footer>
+      <SiteFooter />
     </div>
   );
 }

@@ -9,26 +9,19 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as LoginRouteImport } from './routes/login'
-import { Route as AppRouteImport } from './routes/app'
+import { Route as PainelRouteImport } from './routes/painel'
+import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as AppIndexRouteImport } from './routes/app.index'
-import { Route as AppRedeRouteImport } from './routes/app.rede'
-import { Route as AppRecompensasRouteImport } from './routes/app.recompensas'
-import { Route as AppRankingRouteImport } from './routes/app.ranking'
-import { Route as AppPerfilRouteImport } from './routes/app.perfil'
-import { Route as AppHistoricoRouteImport } from './routes/app.historico'
-import { Route as AppAtividadesRouteImport } from './routes/app.atividades'
 
-const LoginRoute = LoginRouteImport.update({
-  id: '/login',
-  path: '/login',
+const PainelRoute = PainelRouteImport.update({
+  id: '/painel',
+  path: '/painel',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AppRoute = AppRouteImport.update({
-  id: '/app',
-  path: '/app',
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminRoute = AdminRouteImport.update({
@@ -41,143 +34,55 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AppIndexRoute = AppIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppRedeRoute = AppRedeRouteImport.update({
-  id: '/rede',
-  path: '/rede',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppRecompensasRoute = AppRecompensasRouteImport.update({
-  id: '/recompensas',
-  path: '/recompensas',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppRankingRoute = AppRankingRouteImport.update({
-  id: '/ranking',
-  path: '/ranking',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppPerfilRoute = AppPerfilRouteImport.update({
-  id: '/perfil',
-  path: '/perfil',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppHistoricoRoute = AppHistoricoRouteImport.update({
-  id: '/historico',
-  path: '/historico',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppAtividadesRoute = AppAtividadesRouteImport.update({
-  id: '/atividades',
-  path: '/atividades',
-  getParentRoute: () => AppRoute,
-} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
-  '/app': typeof AppRouteWithChildren
-  '/login': typeof LoginRoute
-  '/app/atividades': typeof AppAtividadesRoute
-  '/app/historico': typeof AppHistoricoRoute
-  '/app/perfil': typeof AppPerfilRoute
-  '/app/ranking': typeof AppRankingRoute
-  '/app/recompensas': typeof AppRecompensasRoute
-  '/app/rede': typeof AppRedeRoute
-  '/app/': typeof AppIndexRoute
+  '/auth': typeof AuthRoute
+  '/painel': typeof PainelRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
-  '/login': typeof LoginRoute
-  '/app/atividades': typeof AppAtividadesRoute
-  '/app/historico': typeof AppHistoricoRoute
-  '/app/perfil': typeof AppPerfilRoute
-  '/app/ranking': typeof AppRankingRoute
-  '/app/recompensas': typeof AppRecompensasRoute
-  '/app/rede': typeof AppRedeRoute
-  '/app': typeof AppIndexRoute
+  '/auth': typeof AuthRoute
+  '/painel': typeof PainelRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
-  '/app': typeof AppRouteWithChildren
-  '/login': typeof LoginRoute
-  '/app/atividades': typeof AppAtividadesRoute
-  '/app/historico': typeof AppHistoricoRoute
-  '/app/perfil': typeof AppPerfilRoute
-  '/app/ranking': typeof AppRankingRoute
-  '/app/recompensas': typeof AppRecompensasRoute
-  '/app/rede': typeof AppRedeRoute
-  '/app/': typeof AppIndexRoute
+  '/auth': typeof AuthRoute
+  '/painel': typeof PainelRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths:
-    | '/'
-    | '/admin'
-    | '/app'
-    | '/login'
-    | '/app/atividades'
-    | '/app/historico'
-    | '/app/perfil'
-    | '/app/ranking'
-    | '/app/recompensas'
-    | '/app/rede'
-    | '/app/'
+  fullPaths: '/' | '/admin' | '/auth' | '/painel'
   fileRoutesByTo: FileRoutesByTo
-  to:
-    | '/'
-    | '/admin'
-    | '/login'
-    | '/app/atividades'
-    | '/app/historico'
-    | '/app/perfil'
-    | '/app/ranking'
-    | '/app/recompensas'
-    | '/app/rede'
-    | '/app'
-  id:
-    | '__root__'
-    | '/'
-    | '/admin'
-    | '/app'
-    | '/login'
-    | '/app/atividades'
-    | '/app/historico'
-    | '/app/perfil'
-    | '/app/ranking'
-    | '/app/recompensas'
-    | '/app/rede'
-    | '/app/'
+  to: '/' | '/admin' | '/auth' | '/painel'
+  id: '__root__' | '/' | '/admin' | '/auth' | '/painel'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRoute
-  AppRoute: typeof AppRouteWithChildren
-  LoginRoute: typeof LoginRoute
+  AuthRoute: typeof AuthRoute
+  PainelRoute: typeof PainelRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/login': {
-      id: '/login'
-      path: '/login'
-      fullPath: '/login'
-      preLoaderRoute: typeof LoginRouteImport
+    '/painel': {
+      id: '/painel'
+      path: '/painel'
+      fullPath: '/painel'
+      preLoaderRoute: typeof PainelRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/app': {
-      id: '/app'
-      path: '/app'
-      fullPath: '/app'
-      preLoaderRoute: typeof AppRouteImport
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin': {
@@ -194,96 +99,15 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/app/': {
-      id: '/app/'
-      path: '/'
-      fullPath: '/app/'
-      preLoaderRoute: typeof AppIndexRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/app/rede': {
-      id: '/app/rede'
-      path: '/rede'
-      fullPath: '/app/rede'
-      preLoaderRoute: typeof AppRedeRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/app/recompensas': {
-      id: '/app/recompensas'
-      path: '/recompensas'
-      fullPath: '/app/recompensas'
-      preLoaderRoute: typeof AppRecompensasRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/app/ranking': {
-      id: '/app/ranking'
-      path: '/ranking'
-      fullPath: '/app/ranking'
-      preLoaderRoute: typeof AppRankingRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/app/perfil': {
-      id: '/app/perfil'
-      path: '/perfil'
-      fullPath: '/app/perfil'
-      preLoaderRoute: typeof AppPerfilRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/app/historico': {
-      id: '/app/historico'
-      path: '/historico'
-      fullPath: '/app/historico'
-      preLoaderRoute: typeof AppHistoricoRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/app/atividades': {
-      id: '/app/atividades'
-      path: '/atividades'
-      fullPath: '/app/atividades'
-      preLoaderRoute: typeof AppAtividadesRouteImport
-      parentRoute: typeof AppRoute
-    }
   }
 }
-
-interface AppRouteChildren {
-  AppAtividadesRoute: typeof AppAtividadesRoute
-  AppHistoricoRoute: typeof AppHistoricoRoute
-  AppPerfilRoute: typeof AppPerfilRoute
-  AppRankingRoute: typeof AppRankingRoute
-  AppRecompensasRoute: typeof AppRecompensasRoute
-  AppRedeRoute: typeof AppRedeRoute
-  AppIndexRoute: typeof AppIndexRoute
-}
-
-const AppRouteChildren: AppRouteChildren = {
-  AppAtividadesRoute: AppAtividadesRoute,
-  AppHistoricoRoute: AppHistoricoRoute,
-  AppPerfilRoute: AppPerfilRoute,
-  AppRankingRoute: AppRankingRoute,
-  AppRecompensasRoute: AppRecompensasRoute,
-  AppRedeRoute: AppRedeRoute,
-  AppIndexRoute: AppIndexRoute,
-}
-
-const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRoute,
-  AppRoute: AppRouteWithChildren,
-  LoginRoute: LoginRoute,
+  AuthRoute: AuthRoute,
+  PainelRoute: PainelRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
