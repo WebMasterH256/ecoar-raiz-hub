@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { EcoarLogo } from "./EcoarLogo";
-import { Github as GithubIcon, Instagram as InstagramIcon, Twitter as TwitterIcon } from "lucide-react";
+import { Github, Instagram, Twitter } from "lucide-react";
 
 export function SiteFooter() {
   return (
@@ -15,13 +15,13 @@ export function SiteFooter() {
             </p>
             <div className="mt-8 flex gap-4">
               <a href="#" className="flex h-10 w-10 items-center justify-center rounded-full bg-card border border-border text-muted-foreground transition-all hover:border-primary hover:text-primary hover:shadow-soft">
-                <InstagramIcon className="h-5 w-5" />
+                <Instagram className="h-5 w-5" />
               </a>
               <a href="#" className="flex h-10 w-10 items-center justify-center rounded-full bg-card border border-border text-muted-foreground transition-all hover:border-primary hover:text-primary hover:shadow-soft">
-                <TwitterIcon className="h-5 w-5" />
+                <Twitter className="h-5 w-5" />
               </a>
               <a href="#" className="flex h-10 w-10 items-center justify-center rounded-full bg-card border border-border text-muted-foreground transition-all hover:border-primary hover:text-primary hover:shadow-soft">
-                <GithubIcon className="h-5 w-5" />
+                <Github className="h-5 w-5" />
               </a>
             </div>
           </div>
