@@ -21,7 +21,7 @@ function Dashboard() {
   const proximoIdx = niveis.findIndex((n) => n.nome === cidadaoDemo.nivel) + 1;
   const proximo = niveis[proximoIdx];
   const progresso = proximo
-    ? ((cidadaoDemo.raiz - nivelAtual.min) / (proximo.min - nivelAtual.min)) * 100
+    ? ((cidadaoDemo.sementes - nivelAtual.min) / (proximo.min - nivelAtual.min)) * 100
     : 100;
 
   return (
@@ -49,8 +49,8 @@ function Dashboard() {
           <div className="flex items-center gap-3 rounded-2xl bg-white/15 p-4 backdrop-blur">
             <Coins className="size-8" />
             <div>
-              <div className="text-xs uppercase tracking-wider opacity-80">Saldo RAIZ</div>
-              <div className="font-display text-3xl font-bold">{cidadaoDemo.raiz}</div>
+              <div className="text-xs uppercase tracking-wider opacity-80">Saldo sementes</div>
+              <div className="font-display text-3xl font-bold">{cidadaoDemo.sementes}</div>
             </div>
           </div>
         </div>
@@ -127,7 +127,7 @@ function Dashboard() {
               <p className="mt-1 text-sm text-muted-foreground">{a.descricao}</p>
               <div className="mt-3 flex items-center justify-between text-xs text-muted-foreground">
                 <span>{a.data} • {a.local}</span>
-                <span className="font-semibold text-primary">+{a.raiz} RAIZ</span>
+                <span className="font-semibold text-primary">+{a.sementes} sementes</span>
               </div>
             </div>
           ))}

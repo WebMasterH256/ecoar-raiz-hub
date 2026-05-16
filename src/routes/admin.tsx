@@ -132,7 +132,7 @@ function VisaoGeral() {
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
         <Kpi icon={Users} label="Usuários cadastrados" value={adminKpis.usuarios.toLocaleString("pt-BR")} delta="+12%" />
         <Kpi icon={ClipboardList} label="Inscrições" value={adminKpis.inscricoes.toLocaleString("pt-BR")} delta="+8%" />
-        <Kpi icon={Coins} label="RAIZ distribuído" value={adminKpis.raizDistribuido.toLocaleString("pt-BR")} delta="+24%" />
+        <Kpi icon={Coins} label="Sementes distribuídas" value={adminKpis.sementesDistribuido.toLocaleString("pt-BR")} delta="+24%" />
         <Kpi icon={Activity} label="Atividades ativas" value={String(adminKpis.atividadesAtivas)} />
         <Kpi icon={TrendingUp} label="Crescimento mensal" value={`${adminKpis.crescimento}%`} delta="estável" />
       </div>
@@ -201,7 +201,7 @@ function GestaoAtividades() {
               <th className="px-4 py-3 text-left">Categoria</th>
               <th className="px-4 py-3 text-left">Data</th>
               <th className="px-4 py-3 text-left">Inscritos</th>
-              <th className="px-4 py-3 text-left">RAIZ</th>
+              <th className="px-4 py-3 text-left">Sementes</th>
               <th className="px-4 py-3 text-left">Status</th>
               <th className="px-4 py-3" />
             </tr>
@@ -213,7 +213,7 @@ function GestaoAtividades() {
                 <td className="px-4 py-3 text-muted-foreground">{a.categoria}</td>
                 <td className="px-4 py-3 text-muted-foreground">{a.data}</td>
                 <td className="px-4 py-3">{a.inscritos}/{a.vagas}</td>
-                <td className="px-4 py-3 text-primary">+{a.raiz}</td>
+                <td className="px-4 py-3 text-primary">+{a.sementes}</td>
                 <td className="px-4 py-3">
                   <span
                     className={`rounded-full px-2.5 py-0.5 text-xs font-semibold ${
@@ -271,7 +271,7 @@ function Inscricoes() {
                 </td>
                 <td className="px-4 py-3 text-right">
                   <Button variant="hero" size="sm">Confirmar presença</Button>
-                  <Button variant="ghost" size="sm">Liberar RAIZ</Button>
+                  <Button variant="ghost" size="sm">Liberar sementes</Button>
                 </td>
               </tr>
             ))}
@@ -325,7 +325,7 @@ function Relatorios() {
       <h1 className="font-display text-2xl font-bold">Relatórios analíticos</h1>
       <div className="grid gap-6 lg:grid-cols-2">
         <div className="rounded-3xl border border-border bg-surface p-6 shadow-soft">
-          <h3 className="mb-4 font-display font-bold">RAIZ distribuído por mês</h3>
+          <h3 className="mb-4 font-display font-bold">Sementes distribuídas por mês</h3>
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={crescimentoMensal}>
@@ -333,7 +333,7 @@ function Relatorios() {
                 <XAxis dataKey="mes" stroke="oklch(0.5 0.03 60)" fontSize={12} />
                 <YAxis stroke="oklch(0.5 0.03 60)" fontSize={12} />
                 <Tooltip contentStyle={{ borderRadius: 12, border: "1px solid oklch(0.92 0.015 70)", background: "white" }} />
-                <Bar dataKey="raiz" radius={[8, 8, 0, 0]} fill="oklch(0.74 0.18 55)" />
+                <Bar dataKey="sementes" radius={[8, 8, 0, 0]} fill="oklch(0.74 0.18 55)" />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -365,7 +365,7 @@ function Relatorios() {
 function Logs() {
   const logs = [
     { t: "14:32", u: "coordenacao@ecoar", a: "Criou atividade 'Mutirão Horta do Centro'" },
-    { t: "13:18", u: "ana.tecnica@ecoar", a: "Liberou 80 RAIZ para 18 cidadãos" },
+    { t: "13:18", u: "ana.tecnica@ecoar", a: "Liberou 80 sementes para 18 cidadãos" },
     { t: "11:05", u: "coordenacao@ecoar", a: "Editou meta '2.500 famílias cadastradas'" },
     { t: "09:42", u: "supervisor@ecoar", a: "Aprovou nova categoria 'Cozinhas Solidárias'" },
     { t: "08:10", u: "coordenacao@ecoar", a: "Encerrou inscrições da Feira da Agricultura" },
