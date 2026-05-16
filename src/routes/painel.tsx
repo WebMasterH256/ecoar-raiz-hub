@@ -7,9 +7,9 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
-import { activities, networkPlaces, ranking, rewards, levelFor } from "@/lib/mock-data";
+import { levelFor } from "@/lib/mock-data";
 import { Home, Calendar, Trophy, Map as MapIcon, Gift, History, UserRound, LogOut, Search, Bell, Sprout, MapPin, ArrowRight, PlayCircle, Award } from "lucide-react";
-import vEquipe from "@/assets/visita-equipe.jpg";
+import { useQuery } from "@tanstack/react-query";
 
 export const Route = createFileRoute("/painel")({
   head: () => ({ meta: [{ title: "Painel — ECOAR" }] }),
@@ -21,23 +21,20 @@ type Section = "inicio" | "atividades" | "ranking" | "rede" | "recompensas" | "v
 function Painel() {
   const navigate = useNavigate();
   const [section, setSection] = useState<Section>("inicio");
-  const [user, setUser] = useState<{ name: string; email: string } | null>(null);
-  const myRaiz = 287;
+
+  const { data: profile, isLoading: isLoadingProfile } = useQuery({
+    queryKey: ["profile"],
+    queryFn: async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return null;
+      const { data, error } = await supabase.from("profiles").select("*").eq("id", user.id).single();
+      if (error) throw error;
+      return data;
+    },
+  });
+
+  const myRaiz = profile?.sementes ?? 0;
   const myLevel = levelFor(myRaiz);
-
-  useEffect(() => {
-    supabase.auth.getUser().then(({ data }) => {
-      const u = data.user;
-      if (u) {
-        setUser({
-          name: (u.user_metadata?.full_name as string) || u.email?.split("@")[0] || "Cidadão",
-          email: u.email || "",
-        });
-      }
-    });
-  }, []);
-
-  
 
   async function logout() {
     await supabase.auth.signOut();
@@ -54,6 +51,10 @@ function Painel() {
     { id: "historico", label: "Histórico", icon: History },
     { id: "perfil", label: "Meu Perfil", icon: UserRound },
   ];
+
+  if (isLoadingProfile) {
+    return <div className="flex h-screen items-center justify-center">Carregando...</div>;
+  }
 
   return (
     <div className="flex min-h-screen bg-secondary/30">
@@ -91,9 +92,9 @@ function Painel() {
               <span className="absolute -right-0.5 -top-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground">3</span>
             </button>
             <div className="flex items-center gap-3 rounded-full bg-secondary px-1 py-1 pr-4">
-              <div className="flex h-9 w-9 items-center justify-center rounded-full ecoar-gradient text-primary-foreground font-bold">{user?.name?.[0] ?? "C"}</div>
+              <div className="flex h-9 w-9 items-center justify-center rounded-full ecoar-gradient text-primary-foreground font-bold">{profile?.nome?.[0] ?? "C"}</div>
               <div className="hidden sm:block leading-tight">
-                <p className="text-sm font-bold text-foreground">{user?.name ?? "Cidadão"}</p>
+                <p className="text-sm font-bold text-foreground">{profile?.nome ?? "Cidadão"}</p>
                 <p className="text-[10px] uppercase tracking-wider text-primary font-semibold">{myLevel.name}</p>
               </div>
             </div>
@@ -101,14 +102,14 @@ function Painel() {
         </header>
 
         <div className="mx-auto max-w-7xl px-4 py-8 sm:px-8">
-          {section === "inicio" && <Inicio name={user?.name ?? "Cidadão"} raiz={myRaiz} levelName={myLevel.name} setSection={setSection} />}
+          {section === "inicio" && <Inicio profile={profile} raiz={myRaiz} levelName={myLevel.name} setSection={setSection} />}
           {section === "atividades" && <AtividadesView />}
           {section === "ranking" && <RankingView />}
           {section === "rede" && <RedeView />}
-          {section === "recompensas" && <RecompensasView raiz={myRaiz} />}
+          {section === "recompensas" && <RecompensasView profile={profile} />}
           {section === "videos" && <VideosView />}
           {section === "historico" && <HistoricoView />}
-          {section === "perfil" && <PerfilView name={user?.name ?? "Cidadão"} email={user?.email ?? ""} raiz={myRaiz} />}
+          {section === "perfil" && <PerfilView profile={profile} />}
         </div>
       </main>
     </div>
