@@ -58,7 +58,7 @@ function RankingPage() {
                 {dest.bairro}
               </div>
               <div className="mt-3 font-display text-2xl font-bold">
-                {dest.sementes} <span className="text-xs font-medium opacity-80">sementes</span>
+                {dest.raiz} <span className="text-xs font-medium opacity-80">RAIZ</span>
               </div>
               <div className="mt-1 text-xs opacity-80">#{idx + 1} • {dest.nivel}</div>
             </motion.div>
@@ -73,7 +73,7 @@ function RankingPage() {
           const nivel = niveis.find((n) => n.nome === p.nivel)!;
           const prox = niveis[niveis.indexOf(nivel) + 1];
           const prog = prox
-            ? ((p.sementes - nivel.min) / (prox.min - nivel.min)) * 100
+            ? ((p.raiz - nivel.min) / (prox.min - nivel.min)) * 100
             : 100;
           return (
             <div
@@ -102,8 +102,8 @@ function RankingPage() {
                 </div>
               </div>
               <div className="hidden text-right sm:block">
-                <div className="font-display font-bold">{p.sementes}</div>
-                <div className="text-[10px] uppercase tracking-wider text-muted-foreground">sementes</div>
+                <div className="font-display font-bold">{p.raiz}</div>
+                <div className="text-[10px] uppercase tracking-wider text-muted-foreground">RAIZ</div>
               </div>
             </div>
           );
@@ -119,7 +119,7 @@ function RankingPage() {
               <Medal className="size-5 text-primary" />
               <div className="mt-3 font-display font-bold">{n.nome}</div>
               <div className="text-xs text-muted-foreground">
-                {n.min}{n.max === Infinity ? "+ sementes" : `–${n.max} sementes`}
+                {n.min}{n.max === Infinity ? "+ RAIZ" : `–${n.max} RAIZ`}
               </div>
             </div>
           ))}

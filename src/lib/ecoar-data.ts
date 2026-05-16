@@ -5,7 +5,7 @@ export type Atividade = {
   descricao: string;
   data: string;
   local: string;
-  sementes: number;
+  raiz: number;
   vagas: number;
   inscritos: number;
   status: "Em breve" | "Em andamento";
@@ -19,7 +19,7 @@ export const atividades: Atividade[] = [
     descricao: "Plantio coletivo e manutenção dos canteiros comunitários.",
     data: "22 Mai • 07h00",
     local: "Praça Central, Arcoverde",
-    sementes: 80,
+    raiz: 80,
     vagas: 30,
     inscritos: 18,
     status: "Em andamento",
@@ -31,7 +31,7 @@ export const atividades: Atividade[] = [
     descricao: "Aprenda receitas que usam talos, cascas e folhas.",
     data: "24 Mai • 14h00",
     local: "Cozinha Popular Central",
-    sementes: 60,
+    raiz: 60,
     vagas: 20,
     inscritos: 20,
     status: "Em andamento",
@@ -43,7 +43,7 @@ export const atividades: Atividade[] = [
     descricao: "Comercialização direta com produtores do Sertão.",
     data: "01 Jun • 06h00",
     local: "Pátio Raízes do Sertão",
-    sementes: 40,
+    raiz: 40,
     vagas: 100,
     inscritos: 42,
     status: "Em breve",
@@ -52,10 +52,10 @@ export const atividades: Atividade[] = [
     id: "a4",
     nome: "Coleta Solidária EcoPonto",
     categoria: "Reaproveitamento",
-    descricao: "Entrega de recicláveis com bonificação em sementes.",
+    descricao: "Entrega de recicláveis com bonificação em RAIZ.",
     data: "05 Jun • 08h00",
     local: "EcoPonto São Geraldo",
-    sementes: 50,
+    raiz: 50,
     vagas: 60,
     inscritos: 12,
     status: "Em breve",
@@ -67,7 +67,7 @@ export const atividades: Atividade[] = [
     descricao: "Encontro intergeracional de fortalecimento de vínculos.",
     data: "08 Jun • 15h00",
     local: "CRAS Boa Vista",
-    sementes: 45,
+    raiz: 45,
     vagas: 40,
     inscritos: 27,
     status: "Em breve",
@@ -79,19 +79,19 @@ export type Pessoa = {
   nome: string;
   iniciais: string;
   bairro: string;
-  sementes: number;
+  raiz: number;
   nivel: "Broto" | "Raiz Forte" | "Guardião da Colheita" | "Transformador Social";
 };
 
 export const ranking: Pessoa[] = [
-  { id: "p1", nome: "Maria Conceição", iniciais: "MC", bairro: "Boa Vista", sementes: 1840, nivel: "Transformador Social" },
-  { id: "p2", nome: "João Bezerra", iniciais: "JB", bairro: "São Cristóvão", sementes: 1320, nivel: "Transformador Social" },
-  { id: "p3", nome: "Lucia Albuquerque", iniciais: "LA", bairro: "Capoeiras", sementes: 980, nivel: "Guardião da Colheita" },
-  { id: "p4", nome: "Carlos Henrique", iniciais: "CH", bairro: "São Geraldo", sementes: 760, nivel: "Guardião da Colheita" },
-  { id: "p5", nome: "Aline Souza", iniciais: "AS", bairro: "Centro", sementes: 540, nivel: "Guardião da Colheita" },
-  { id: "p6", nome: "Pedro Nunes", iniciais: "PN", bairro: "Mangueiras", sementes: 380, nivel: "Raiz Forte" },
-  { id: "p7", nome: "Vitória Lima", iniciais: "VL", bairro: "Boa Vista", sementes: 240, nivel: "Raiz Forte" },
-  { id: "p8", nome: "Rafael Torres", iniciais: "RT", bairro: "Centro", sementes: 90, nivel: "Broto" },
+  { id: "p1", nome: "Maria Conceição", iniciais: "MC", bairro: "Boa Vista", raiz: 1840, nivel: "Transformador Social" },
+  { id: "p2", nome: "João Bezerra", iniciais: "JB", bairro: "São Cristóvão", raiz: 1320, nivel: "Transformador Social" },
+  { id: "p3", nome: "Lucia Albuquerque", iniciais: "LA", bairro: "Capoeiras", raiz: 980, nivel: "Guardião da Colheita" },
+  { id: "p4", nome: "Carlos Henrique", iniciais: "CH", bairro: "São Geraldo", raiz: 760, nivel: "Guardião da Colheita" },
+  { id: "p5", nome: "Aline Souza", iniciais: "AS", bairro: "Centro", raiz: 540, nivel: "Guardião da Colheita" },
+  { id: "p6", nome: "Pedro Nunes", iniciais: "PN", bairro: "Mangueiras", raiz: 380, nivel: "Raiz Forte" },
+  { id: "p7", nome: "Vitória Lima", iniciais: "VL", bairro: "Boa Vista", raiz: 240, nivel: "Raiz Forte" },
+  { id: "p8", nome: "Rafael Torres", iniciais: "RT", bairro: "Centro", raiz: 90, nivel: "Broto" },
 ];
 
 export const niveis = [
@@ -153,7 +153,7 @@ export const cidadaoDemo = {
   nome: "Ana Paula Ferreira",
   iniciais: "AP",
   bairro: "Boa Vista",
-  sementes: 612,
+  raiz: 612,
   nivel: "Guardião da Colheita" as const,
   posicao: 5,
   proximoNivel: 1001,
@@ -165,18 +165,18 @@ export const cidadaoDemo = {
 export const adminKpis = {
   usuarios: 2418,
   inscricoes: 5821,
-  sementesDistribuido: 184230,
+  raizDistribuido: 184230,
   atividadesAtivas: 47,
   crescimento: 12.4,
 };
 
 export const crescimentoMensal = [
-  { mes: "Jan", familias: 1200, sementes: 42000 },
-  { mes: "Fev", familias: 1380, sementes: 58000 },
-  { mes: "Mar", familias: 1620, sementes: 71000 },
-  { mes: "Abr", familias: 1910, sementes: 96000 },
-  { mes: "Mai", familias: 2180, sementes: 132000 },
-  { mes: "Jun", familias: 2418, sementes: 184230 },
+  { mes: "Jan", familias: 1200, raiz: 42000 },
+  { mes: "Fev", familias: 1380, raiz: 58000 },
+  { mes: "Mar", familias: 1620, raiz: 71000 },
+  { mes: "Abr", familias: 1910, raiz: 96000 },
+  { mes: "Mai", familias: 2180, raiz: 132000 },
+  { mes: "Jun", familias: 2418, raiz: 184230 },
 ];
 
 export const distribuicaoBairros = [
@@ -192,7 +192,7 @@ export const metas = [
   { nome: "2.500 famílias cadastradas", progresso: 96, status: "Em andamento" as const },
   { nome: "100 hortas comunitárias ativas", progresso: 85, status: "Em andamento" as const },
   { nome: "20t de desperdício evitado", progresso: 90, status: "Atenção" as const },
-  { nome: "200k sementes distribuídas", progresso: 92, status: "Em andamento" as const },
+  { nome: "200k RAIZ distribuídos", progresso: 92, status: "Em andamento" as const },
   { nome: "Integração total CadÚnico", progresso: 100, status: "Concluída" as const },
   { nome: "Cobertura territorial 12 bairros", progresso: 70, status: "Atrasada" as const },
 ];
