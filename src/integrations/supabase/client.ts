@@ -63,6 +63,10 @@ export const supabase = {
     setSession: async (tokens: any) => {
       if (tokens?.access_token) localStorage.setItem("ecoar_token", tokens.access_token);
       return { data: { session: tokens }, error: null };
+    signOut: async () => {
+      localStorage.removeItem("ecoar_token");
+      localStorage.removeItem("ecoar_user");
+      return { error: null };
     },
   },
   from: (table: string) => ({
