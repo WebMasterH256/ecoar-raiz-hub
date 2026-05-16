@@ -1,13 +1,41 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { recompensas, cidadaoDemo } from "@/lib/ecoar-data";
+import { recompensas as initialRecompensas, cidadaoDemo } from "@/lib/ecoar-data";
 import { Button } from "@/components/ui/button";
-import { Coins, Gift } from "lucide-react";
+import { Coins, Gift, Loader2 } from "lucide-react";
+import { useState, useEffect } from "react";
+import { recompensaService } from "@/lib/supabase";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/app/recompensas")({
   component: RecompensasPage,
 });
 
 function RecompensasPage() {
+  const [recompensas, setRecompensas] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function load() {
+      try {
+        const data = await recompensaService.getRecompensas();
+        setRecompensas(data.length > 0 ? data : initialRecompensas);
+      } catch (e) {
+        setRecompensas(initialRecompensas);
+      } finally {
+        setLoading(false);
+      }
+    }
+    load();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="flex h-64 items-center justify-center">
+        <Loader2 className="size-8 animate-spin text-primary" />
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-8">
       <header className="flex flex-wrap items-end justify-between gap-4">
@@ -51,6 +79,14 @@ function RecompensasPage() {
                   size="sm"
                   className="mt-4"
                   disabled={!podeTrocar}
+                  onClick={async () => {
+                    const promise = recompensaService.resgatar(r.id, "demo-user-id", r.custo);
+                    toast.promise(promise, {
+                      loading: 'Processando resgate...',
+                      success: 'Recompensa resgatada!',
+                      error: (err) => err.message || 'Erro ao resgatar.',
+                    });
+                  }}
                 >
                   {podeTrocar ? "Resgatar agora" : `Faltam ${r.custo - cidadaoDemo.sementes}`}
                 </Button>

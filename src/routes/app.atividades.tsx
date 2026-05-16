@@ -1,16 +1,44 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { atividades } from "@/lib/ecoar-data";
+import { atividades as initialAtividades } from "@/lib/ecoar-data";
 import { Button } from "@/components/ui/button";
-import { Calendar, MapPin, Users } from "lucide-react";
+import { Calendar, MapPin, Users, Loader2 } from "lucide-react";
 import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
+import { atividadesService } from "@/lib/supabase";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/app/atividades")({
   component: AtividadesPage,
 });
 
 function AtividadesPage() {
+  const [atividades, setAtividades] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function load() {
+      try {
+        const data = await atividadesService.getAtividades();
+        setAtividades(data.length > 0 ? data : initialAtividades);
+      } catch (e) {
+        setAtividades(initialAtividades);
+      } finally {
+        setLoading(false);
+      }
+    }
+    load();
+  }, []);
+
   const emAndamento = atividades.filter((a) => a.status === "Em andamento");
   const emBreve = atividades.filter((a) => a.status === "Em breve");
+
+  if (loading) {
+    return (
+      <div className="flex h-64 items-center justify-center">
+        <Loader2 className="size-8 animate-spin text-primary" />
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-10">
@@ -76,7 +104,19 @@ function Section({
               </div>
               <div className="mt-4 flex items-center justify-between gap-2 border-t border-border pt-4">
                 <span className="font-semibold text-primary">+{a.sementes} sementes</span>
-                <Button variant={lotado ? "outline" : "hero"} size="sm">
+                <Button 
+                  variant={lotado ? "outline" : "hero"} 
+                  size="sm"
+                  onClick={async () => {
+                    if (lotado) return;
+                    const promise = atividadesService.inscrever(a.id, "demo-user-id");
+                    toast.promise(promise, {
+                      loading: 'Inscrevendo...',
+                      success: 'Inscrição realizada com sucesso!',
+                      error: 'Erro ao se inscrever.',
+                    });
+                  }}
+                >
                   {lotado ? "Lista de espera" : "Inscrever-se"}
                 </Button>
               </div>
