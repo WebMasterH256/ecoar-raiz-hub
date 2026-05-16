@@ -19,7 +19,7 @@ function AtividadesPage() {
     async function load() {
       try {
         const data = await atividadesService.getAtividades();
-        setAtividades(data.length > 0 ? data : initialAtividades);
+        setAtividades(data && data.length > 0 ? data : initialAtividades);
       } catch (e) {
         setAtividades(initialAtividades);
       } finally {
@@ -64,7 +64,7 @@ function Section({
   accent,
 }: {
   title: string;
-  items: typeof atividades;
+  items: any[];
   accent: "primary" | "success";
 }) {
   return (
