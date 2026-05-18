@@ -1,0 +1,11 @@
+/dev-server/backend/Ecoar.Domain/bin/Debug/net9.0/Ecoar.Domain.deps.json
+/dev-server/backend/Ecoar.Domain/bin/Debug/net9.0/Ecoar.Domain.dll
+/dev-server/backend/Ecoar.Domain/bin/Debug/net9.0/Ecoar.Domain.pdb
+/dev-server/backend/Ecoar.Domain/obj/Debug/net9.0/Ecoar.Domain.GeneratedMSBuildEditorConfig.editorconfig
+/dev-server/backend/Ecoar.Domain/obj/Debug/net9.0/Ecoar.Domain.AssemblyInfoInputs.cache
+/dev-server/backend/Ecoar.Domain/obj/Debug/net9.0/Ecoar.Domain.AssemblyInfo.cs
+/dev-server/backend/Ecoar.Domain/obj/Debug/net9.0/Ecoar.Domain.csproj.CoreCompileInputs.cache
+/dev-server/backend/Ecoar.Domain/obj/Debug/net9.0/Ecoar.Domain.dll
+/dev-server/backend/Ecoar.Domain/obj/Debug/net9.0/refint/Ecoar.Domain.dll
+/dev-server/backend/Ecoar.Domain/obj/Debug/net9.0/Ecoar.Domain.pdb
+/dev-server/backend/Ecoar.Domain/obj/Debug/net9.0/ref/Ecoar.Domain.dll

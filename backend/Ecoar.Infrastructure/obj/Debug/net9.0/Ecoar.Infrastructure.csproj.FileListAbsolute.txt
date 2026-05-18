@@ -1,0 +1,17 @@
+/dev-server/backend/Ecoar.Infrastructure/bin/Debug/net9.0/Ecoar.Infrastructure.deps.json
+/dev-server/backend/Ecoar.Infrastructure/bin/Debug/net9.0/Ecoar.Infrastructure.runtimeconfig.json
+/dev-server/backend/Ecoar.Infrastructure/bin/Debug/net9.0/Ecoar.Infrastructure.dll
+/dev-server/backend/Ecoar.Infrastructure/bin/Debug/net9.0/Ecoar.Infrastructure.pdb
+/dev-server/backend/Ecoar.Infrastructure/bin/Debug/net9.0/Ecoar.Domain.dll
+/dev-server/backend/Ecoar.Infrastructure/bin/Debug/net9.0/Ecoar.Domain.pdb
+/dev-server/backend/Ecoar.Infrastructure/obj/Debug/net9.0/Ecoar.Infrastructure.csproj.AssemblyReference.cache
+/dev-server/backend/Ecoar.Infrastructure/obj/Debug/net9.0/Ecoar.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+/dev-server/backend/Ecoar.Infrastructure/obj/Debug/net9.0/Ecoar.Infrastructure.AssemblyInfoInputs.cache
+/dev-server/backend/Ecoar.Infrastructure/obj/Debug/net9.0/Ecoar.Infrastructure.AssemblyInfo.cs
+/dev-server/backend/Ecoar.Infrastructure/obj/Debug/net9.0/Ecoar.Infrastructure.csproj.CoreCompileInputs.cache
+/dev-server/backend/Ecoar.Infrastructure/obj/Debug/net9.0/Ecoar.In.CA261C9D.Up2Date
+/dev-server/backend/Ecoar.Infrastructure/obj/Debug/net9.0/Ecoar.Infrastructure.dll
+/dev-server/backend/Ecoar.Infrastructure/obj/Debug/net9.0/refint/Ecoar.Infrastructure.dll
+/dev-server/backend/Ecoar.Infrastructure/obj/Debug/net9.0/Ecoar.Infrastructure.pdb
+/dev-server/backend/Ecoar.Infrastructure/obj/Debug/net9.0/Ecoar.Infrastructure.genruntimeconfig.cache
+/dev-server/backend/Ecoar.Infrastructure/obj/Debug/net9.0/ref/Ecoar.Infrastructure.dll
