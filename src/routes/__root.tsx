@@ -1,5 +1,4 @@
 import { Outlet, ScrollRestoration, createRootRoute } from '@tanstack/react-router'
-import { Meta, Scripts } from '@tanstack/react-start'
 import * as React from 'react'
 import './styles.css'
 
@@ -11,12 +10,13 @@ function RootComponent() {
   return (
     <html lang="pt-BR">
       <head>
-        <Meta />
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Projeto Reiniciado</title>
       </head>
       <body>
         <Outlet />
         <ScrollRestoration />
-        <Scripts />
       </body>
     </html>
   )
