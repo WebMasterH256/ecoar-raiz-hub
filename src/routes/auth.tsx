@@ -35,10 +35,11 @@ function AuthPage() {
       if (mode === "signup") {
         const { error } = await supabase.auth.signUp({
           email, password,
-          options: { emailRedirectTo: window.location.origin + "/painel", data: { full_name: name } },
+          options: { data: { full_name: name } },
         });
         if (error) throw error;
-        toast.success("Cadastro realizado! Verifique seu email para confirmar.");
+        toast.success("Cadastro realizado com sucesso!");
+        navigate({ to: "/painel" });
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
@@ -49,6 +50,7 @@ function AuthPage() {
       toast.error(err.message || "Erro ao autenticar");
     } finally { setLoading(false); }
   }
+
 
   async function handleGoogle() {
     setLoading(true);
@@ -141,7 +143,7 @@ function AuthPage() {
                 <TabsContent value="coord" className="mt-6 space-y-4">
                   <div className="rounded-xl border border-primary/30 bg-primary-soft p-4 text-sm">
                     <p className="font-semibold text-foreground">Acesso restrito · Coordenação ECOAR</p>
-                    <p className="mt-1 text-muted-foreground">Demo: <code className="font-mono text-foreground">coordenacao@ecoar.admin</code> · <code className="font-mono text-foreground">Ecoar@2026Demo</code></p>
+                    <p className="mt-1 text-muted-foreground">Demo: <code className="font-mono text-foreground">admin@email.com</code> · <code className="font-mono text-foreground">12345678</code></p>
                   </div>
                   <form onSubmit={handleAdmin} className="space-y-4">
                     <div><Label htmlFor="ae">Email institucional</Label><Input id="ae" type="email" value={email} onChange={e => setEmail(e.target.value)} required className="mt-1.5 h-11" /></div>
