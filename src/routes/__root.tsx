@@ -1,9 +1,9 @@
-import { Outlet, ScrollRestoration, createFileRoute } from '@tanstack/react-router'
+import { Outlet, ScrollRestoration, createRootRoute } from '@tanstack/react-router'
 import { Meta, Scripts } from '@tanstack/react-start'
 import * as React from 'react'
 import './styles.css'
 
-export const Route = createFileRoute('__root__')({
+export const Route = createRootRoute({
   component: RootComponent,
 })
 
