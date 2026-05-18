@@ -42,7 +42,19 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddCors(options => options.AddPolicy(name: "EcoarOrigins",
     policy =>
     {
-        policy.WithOrigins("http://localhost:5173", "https://*.lovable.app").AllowAnyMethod().AllowAnyHeader();
+        policy.SetIsOriginAllowed(origin =>
+            {
+                if (string.IsNullOrEmpty(origin)) return false;
+                var uri = new Uri(origin);
+                // Allow any localhost/127.0.0.1 port during dev
+                if (uri.Host == "localhost" || uri.Host == "127.0.0.1") return true;
+                // Allow lovable.app subdomains
+                if (uri.Host.EndsWith(".lovable.app")) return true;
+                return false;
+            })
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .AllowCredentials();
     }));
 
 var app = builder.Build();
