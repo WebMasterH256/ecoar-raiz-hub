@@ -20,6 +20,27 @@ public class AuthController : ControllerBase
         _authService = authService;
     }
 
+    [HttpGet("profile")]
+    public async Task<ActionResult> GetProfile()
+    {
+        var userIdString = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+        if (string.IsNullOrEmpty(userIdString)) return Unauthorized();
+        
+        var userId = Guid.Parse(userIdString);
+        var user = await _context.Profiles.FindAsync(userId);
+        if (user == null) return NotFound();
+
+        return Ok(new {
+            id = user.Id,
+            nome = user.FullName,
+            email = user.Email,
+            sementes = user.Sementes,
+            nivel = user.Nivel,
+            bairro = user.Bairro
+        });
+    }
+
+
     [HttpPost("register")]
     public async Task<ActionResult<AuthResponseDto>> Register(RegisterDto request)
     {

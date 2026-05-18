@@ -117,8 +117,10 @@ function Admin() {
     async function checkAccess() {
       const { data } = await supabase.auth.getUser();
       const user = data.user;
-      const isAdminDemo = window.sessionStorage?.getItem("ecoar_admin_demo") === "1";
-      const isCoord = isAdminDemo || user?.email?.endsWith(".admin") || user?.email === "coordenacao@ecoar.app";
+      
+      // Use profile from database to check nivel
+      const { data: profile } = await supabase.from("profiles").select("*").eq("id", user?.id).single();
+      const isCoord = profile?.nivel === "Coordenação" || user?.email?.endsWith(".admin") || user?.email === "admin@email.com";
 
       if (!isCoord) {
         navigate({ to: "/auth" });
@@ -130,6 +132,7 @@ function Admin() {
 
     checkAccess();
   }, [navigate]);
+
 
   if (loading) return <div className="flex min-h-screen items-center justify-center">Carregando...</div>;
 
@@ -146,7 +149,7 @@ function Admin() {
           </div>
           <div className="text-right text-sm">
             <p className="font-semibold">Coordenação ECOAR</p>
-            <p className="text-xs text-muted-foreground">coordenacao@ecoar.admin</p>
+            <p className="text-xs text-muted-foreground">admin@email.com</p>
           </div>
         </div>
       </header>
@@ -214,13 +217,62 @@ function Admin() {
           </TabsContent>
 
           <TabsContent value="atividades" className="mt-6 space-y-4">
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between gap-4">
               <p className="text-sm text-muted-foreground">{localActivities.length} atividades cadastradas</p>
               
-              <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-                <Button onClick={() => setIsDialogOpen(true)} className="rounded-full bg-primary text-primary-foreground font-semibold shadow-elegant">
-                  <Plus className="mr-2 h-4 w-4" /> Nova Atividade
-                </Button>
+              <div className="flex gap-2">
+                <Dialog>
+                  <Button variant="outline" className="rounded-full font-semibold border-primary text-primary">
+                    <Plus className="mr-2 h-4 w-4" /> Criar Cidadão
+                  </Button>
+                  <DialogContent className="max-w-md rounded-3xl">
+                    <DialogHeader>
+                      <DialogTitle className="font-display text-2xl font-bold text-primary flex items-center gap-2">
+                        <Users className="h-6 w-6" /> Novo Cidadão
+                      </DialogTitle>
+                      <DialogDescription>
+                        Cadastre um novo usuário cidadão diretamente no banco de dados.
+                      </DialogDescription>
+                    </DialogHeader>
+                    <form onSubmit={async (e) => {
+                      e.preventDefault();
+                      const formData = new FormData(e.currentTarget);
+                      const email = formData.get("email") as string;
+                      const password = formData.get("password") as string;
+                      const name = formData.get("name") as string;
+                      
+                      try {
+                        const { api } = await import("@/integrations/supabase/client");
+                        await api.post("/auth/register", { email, password, fullName: name });
+                        toast.success("Cidadão criado com sucesso no banco de dados!");
+                      } catch (err: any) {
+                        toast.error(err.message || "Erro ao criar cidadão");
+                      }
+                    }} className="space-y-4 py-4">
+                      <div className="space-y-2">
+                        <Label>Nome Completo</Label>
+                        <Input name="name" required placeholder="Ex: João Silva" className="rounded-xl" />
+                      </div>
+                      <div className="space-y-2">
+                        <Label>Email</Label>
+                        <Input name="email" type="email" required placeholder="joao@email.com" className="rounded-xl" />
+                      </div>
+                      <div className="space-y-2">
+                        <Label>Senha</Label>
+                        <Input name="password" type="password" required minLength={6} placeholder="••••••••" className="rounded-xl" />
+                      </div>
+                      <DialogFooter>
+                        <Button type="submit" className="rounded-full bg-primary text-primary-foreground font-bold w-full">Criar Usuário</Button>
+                      </DialogFooter>
+                    </form>
+                  </DialogContent>
+                </Dialog>
+
+                <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+                  <Button onClick={() => setIsDialogOpen(true)} className="rounded-full bg-primary text-primary-foreground font-semibold shadow-elegant">
+                    <Plus className="mr-2 h-4 w-4" /> Nova Atividade
+                  </Button>
+
                 <DialogContent className="max-w-md rounded-3xl">
                   <DialogHeader>
                     <DialogTitle className="font-display text-2xl font-bold text-primary flex items-center gap-2">
