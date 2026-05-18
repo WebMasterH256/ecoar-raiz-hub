@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { EcoarLogo } from "./EcoarLogo";
-import { Github, Instagram, Twitter } from "lucide-react/icons";
+import { Camera, MessageCircle, Code2 } from "lucide-react";
 
 export function SiteFooter() {
   return (
