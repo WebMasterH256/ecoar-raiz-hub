@@ -390,8 +390,10 @@ function Admin() {
                     <Button onClick={handleAddActivity} className="rounded-full bg-primary text-primary-foreground h-11 px-8 font-bold">Cadastrar Atividade</Button>
                   </DialogFooter>
                 </DialogContent>
-              </Dialog>
+                </Dialog>
+              </div>
             </div>
+
             <Card className="border-border/60 overflow-hidden">
               <table className="w-full text-sm">
                 <thead className="bg-secondary text-xs uppercase tracking-wider text-muted-foreground">
