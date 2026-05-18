@@ -15,13 +15,13 @@ export function SiteFooter() {
             </p>
             <div className="mt-8 flex gap-4">
               <a href="#" className="flex h-10 w-10 items-center justify-center rounded-full bg-card border border-border text-muted-foreground transition-all hover:border-primary hover:text-primary hover:shadow-soft">
-                <Instagram className="h-5 w-5" />
+                <Camera className="h-5 w-5" />
               </a>
               <a href="#" className="flex h-10 w-10 items-center justify-center rounded-full bg-card border border-border text-muted-foreground transition-all hover:border-primary hover:text-primary hover:shadow-soft">
-                <Twitter className="h-5 w-5" />
+                <MessageCircle className="h-5 w-5" />
               </a>
               <a href="#" className="flex h-10 w-10 items-center justify-center rounded-full bg-card border border-border text-muted-foreground transition-all hover:border-primary hover:text-primary hover:shadow-soft">
-                <Github className="h-5 w-5" />
+                <Code2 className="h-5 w-5" />
               </a>
             </div>
           </div>
